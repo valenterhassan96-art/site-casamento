@@ -1041,12 +1041,32 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma <b>nova 
 </div>
 
 <!-- ═══════ ADMIN PANEL ═══════ -->
+<style>
+.admin-actions{position:sticky;top:0;z-index:5;background:#fff;padding:10px 0;margin-bottom:4px;border-bottom:1px solid #f0e6ea}
+.admin-actions .aa-save{width:100%;padding:13px;border:none;border-radius:10px;background:var(--verde);color:#fff;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;box-shadow:0 4px 12px rgba(107,143,113,.28)}
+.admin-actions .aa-row{display:flex;gap:8px;margin-top:8px}
+.admin-actions .aa-row button,.admin-actions .aa-row a{flex:1;text-align:center;text-decoration:none;padding:10px 6px;border:1.5px solid var(--rosa-pale);border-radius:10px;background:#fff;color:var(--rosa-deep);font-family:inherit;font-weight:600;font-size:.72rem;cursor:pointer}
+.admin-actions .aa-row button:hover,.admin-actions .aa-row a:hover{background:var(--rosa-cream)}
+.admin-actions .aa-hint{font-size:9px;color:#bbb;text-align:center;margin-top:8px;line-height:1.6}
+.admin-group{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rosa-deep);font-weight:700;margin:22px 0 8px;padding-bottom:5px;border-bottom:1.5px solid var(--rosa-pale)}
+</style>
 <div class="admin" id="admin-panel">
   <div class="admin-head">
     <h2>⚙️ Editor do Site</h2>
     <button onclick="toggleAdmin()" style="background:none;border:none;cursor:pointer;font-size:18px">✕</button>
   </div>
   <div class="admin-body">
+
+    <div class="admin-actions">
+      <button class="aa-save" onclick="saveSiteConfig()">💾 Salvar alterações</button>
+      <div class="aa-row">
+        <button onclick="toggleLayoutMode()">🎨 Editar layout</button>
+        <a href="gestao.html">📋 Convidados</a>
+      </div>
+      <p class="aa-hint">Textos e imagens → blocos abaixo · Posição das seções → “Editar layout” · Lista de convidados → “Convidados”.<br>“Salvar” guarda neste navegador; publique para todos verem.</p>
+    </div>
+
+    <div class="admin-group">✍️ Conteúdo do site</div>
 
     <!-- HERO -->
     <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">💍</span> Nomes &amp; Hero <span class="acc-arrow">▼</span></button>
@@ -1117,10 +1137,6 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
       <p style="font-size:9px;color:#bbb;margin-top:4px">As fotos ficam salvas neste navegador. Para que <b>todos os convidados</b> vejam, é preciso salvá-las no arquivo e publicar (peça ao seu dev/Claude para embutir as fotos).</p>
     </div></div>
 
-    <!-- CORES CSS -->
-    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🎨</span> Cores do Site (CSS) <span class="acc-arrow">▼</span></button>
-    <div class="acc-content" id="css-colors-editor"></div></div>
-
     <!-- PLAYLIST -->
     <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🎵</span> Playlist <span class="acc-arrow">▼</span></button>
     <div class="acc-content">
@@ -1142,22 +1158,7 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
       <div class="field"><label>Prazo</label><input id="a-rsvp-deadline" value="Confirme até 20 de setembro de 2026" oninput="document.getElementById('rsvp-deadline').textContent=this.value"></div>
       <div class="field"><label>WhatsApp para receber confirmações (só números, com DDI)</label><input id="a-rsvp-phone" value="5592999999999" placeholder="5592999999999"></div>
       <div class="field"><label>Foto de fundo (RSVP)</label><input type="file" accept="image/*" onchange="loadPhoto(this,'rsvp')"></div>
-      <p style="font-size:9px;color:#bbb;margin-top:4px">O contador de confirmados é calculado automaticamente pela lista de Convidados (seção abaixo).</p>
-    </div></div>
-
-    <!-- CONVIDADOS / RSVP INTERNO -->
-    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">📋</span> Convidados <span class="acc-arrow">▼</span></button>
-    <div class="acc-content">
-      <p style="font-size:10px;color:#999;margin-bottom:8px">Toda a lista de convidados (nomes, convites, PINs, confirmações, telefones) é gerenciada na página completa de gestão. A busca do site e o contador usam exatamente esses dados.</p>
-      <a href="gestao.html" class="export-btn" style="display:block;text-align:center;text-decoration:none;background:var(--rosa)">📋 Abrir gestão de convidados</a>
-      <p style="font-size:9px;color:#bbb;margin-top:6px">As alterações feitas lá aparecem aqui automaticamente (mesmo navegador).</p>
-    </div></div>
-
-    <!-- SEGURANÇA -->
-    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🔒</span> Segurança <span class="acc-arrow">▼</span></button>
-    <div class="acc-content">
-      <div class="field"><label>Senha do painel admin</label><input id="a-admin-pin" type="text" value="0910" oninput="adminPin=this.value||'0910';localStorage.setItem('jr-admin-pin',adminPin)"></div>
-      <p style="font-size:9px;color:#bbb">Bloqueia convidados curiosos de abrir este painel. Não é uma senha à prova de tudo (é um site estático), mas impede acesso casual.</p>
+      <p style="font-size:9px;color:#bbb;margin-top:4px">O contador de confirmados usa a lista de Convidados (botão “Convidados” no topo).</p>
     </div></div>
 
     <!-- VERSÍCULO -->
@@ -1165,6 +1166,12 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
     <div class="acc-content">
       <p style="font-size:10px;color:#999;margin-bottom:6px">Edite diretamente no rodapé do HTML.</p>
     </div></div>
+
+    <div class="admin-group">🎨 Aparência &amp; design</div>
+
+    <!-- CORES CSS -->
+    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🎨</span> Cores do Site <span class="acc-arrow">▼</span></button>
+    <div class="acc-content" id="css-colors-editor"></div></div>
 
     <!-- PÉTALAS -->
     <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🌸</span> Pétalas de Rosa <span class="acc-arrow">▼</span></button>
@@ -1174,12 +1181,18 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
       <div class="field" style="margin-top:8px"><label>Velocidade (ms)</label><input id="a-petal-speed" type="number" value="600" min="200" max="3000" step="100"></div>
     </div></div>
 
-    <!-- SALVAR / GESTÃO / EXPORT -->
-    <button class="export-btn" style="background:var(--verde);margin-top:16px" onclick="saveSiteConfig()">💾 Salvar alterações</button>
-    <button class="export-btn" style="background:var(--gold);margin-top:8px" onclick="toggleLayoutMode()">🎨 Editar layout da página</button>
-    <a href="gestao.html" class="export-btn" style="display:block;text-align:center;text-decoration:none;background:var(--rosa);margin-top:8px">📋 Gerenciar convidados (página completa)</a>
-    <button class="export-btn" onclick="exportJSON()" style="margin-top:8px;background:#8a7b7b">📋 Exportar JSON de tudo</button>
-    <p style="font-size:9px;color:#aaa;text-align:center;margin-top:6px">“Salvar” guarda o design/textos neste navegador. Para todos os convidados verem, é preciso publicar o arquivo.</p>
+    <div class="admin-group">⚙️ Avançado</div>
+
+    <!-- SEGURANÇA -->
+    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🔒</span> Senha do painel <span class="acc-arrow">▼</span></button>
+    <div class="acc-content">
+      <div class="field"><label>Senha do painel admin</label><input id="a-admin-pin" type="text" value="0910" oninput="adminPin=this.value||'0910';localStorage.setItem('jr-admin-pin',adminPin)"></div>
+      <p style="font-size:9px;color:#bbb">Bloqueia convidados curiosos de abrir este painel. Não é uma senha à prova de tudo (é um site estático), mas impede acesso casual.</p>
+    </div></div>
+
+    <!-- EXPORT -->
+    <button class="export-btn" onclick="exportJSON()" style="margin-top:12px;background:#8a7b7b">📋 Exportar JSON (backup)</button>
+    <p style="font-size:9px;color:#aaa;text-align:center;margin-top:6px">Backup dos textos/configurações deste navegador.</p>
   </div>
 </div>
 
