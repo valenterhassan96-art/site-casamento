@@ -557,6 +557,7 @@ section>*:not(.wc):not(.petals-box){position:relative}
   <div id="hero-photo-overlay" style="display:none;position:absolute;inset:0;background:rgba(253,248,245,.72);z-index:0"></div>
 
   <div id="hero-svg-slot" style="position:relative;z-index:2">
+    <img id="site-logo" alt="Logo do casamento" style="display:none;max-width:220px;max-height:130px;margin:0 auto 8px">
     <div class="mono-svg" id="monogram-display">
       <svg id="Camada_2" data-name="Camada 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 226.14 246.26">
   <defs>
@@ -1058,6 +1059,7 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma <b>nova 
       <div class="field"><label>Localização</label><input id="a-loc" value="Manaus — Amazonas" oninput="liveUpdate()"></div>
       <div class="field"><label>Foto de fundo (Hero)</label><input type="file" accept="image/*" onchange="loadPhoto(this,'hero')"><img id="hero-photo-preview" class="file-preview" style="display:none"></div>
       <div class="field"><label>SVG personalizado (Hero)</label><input type="file" accept=".svg,image/svg+xml,image/*" onchange="loadSVG(this,'hero-svg-slot')"></div>
+      <div class="field"><label>Logo do casamento (moodboard)</label><input type="file" accept="image/*" onchange="loadLogo(this)"><button type="button" onclick="removeLogo()" style="margin-top:5px;font-size:10px;background:none;border:none;color:#c00;cursor:pointer">✕ remover logo</button></div>
     </div></div>
 
     <!-- STORY -->
@@ -1175,9 +1177,11 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
       <div class="field" style="margin-top:8px"><label>Velocidade (ms)</label><input id="a-petal-speed" type="number" value="600" min="200" max="3000" step="100"></div>
     </div></div>
 
-    <!-- EXPORT -->
-    <button class="export-btn" onclick="exportJSON()">📋 Exportar JSON de tudo</button>
-    <p style="font-size:9px;color:#aaa;text-align:center;margin-top:6px">Copia todos os dados editáveis</p>
+    <!-- SALVAR / GESTÃO / EXPORT -->
+    <button class="export-btn" style="background:var(--verde);margin-top:16px" onclick="saveSiteConfig()">💾 Salvar alterações</button>
+    <a href="gestao.html" class="export-btn" style="display:block;text-align:center;text-decoration:none;background:var(--rosa);margin-top:8px">📋 Gerenciar convidados (página completa)</a>
+    <button class="export-btn" onclick="exportJSON()" style="margin-top:8px;background:#8a7b7b">📋 Exportar JSON de tudo</button>
+    <p style="font-size:9px;color:#aaa;text-align:center;margin-top:6px">“Salvar” guarda o design/textos neste navegador. Para todos os convidados verem, é preciso publicar o arquivo.</p>
   </div>
 </div>
 
@@ -1545,6 +1549,54 @@ const navObs=new IntersectionObserver(e=>{
   }});
 },{threshold:.25});
 document.querySelectorAll('section[id]').forEach(s=>navObs.observe(s));
+</script>
+
+<script>
+// ═══ SALVAR / RESTAURAR DESIGN + LOGO (persistência local) ═══
+function siteToast(msg){
+  let t=document.getElementById('site-toast');
+  if(!t){t=document.createElement('div');t.id='site-toast';t.style.cssText='position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:#3d5a40;color:#fff;padding:10px 20px;border-radius:24px;font-size:13px;font-family:Fraunces,Georgia,serif;opacity:0;transition:.3s;z-index:100000;box-shadow:0 6px 20px rgba(0,0,0,.25);pointer-events:none';document.body.appendChild(t);}
+  t.textContent=msg;requestAnimationFrame(()=>{t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';});
+  clearTimeout(t._t);t._t=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},1900);
+}
+function saveSiteConfig(){
+  const cfg={};
+  document.querySelectorAll('#admin-panel [id^="a-"]').forEach(el=>{
+    if(el.type==='file')return;
+    if(el.tagName==='INPUT'||el.tagName==='SELECT'||el.tagName==='TEXTAREA') cfg[el.id]=el.value;
+  });
+  try{localStorage.setItem('jr-site-config',JSON.stringify(cfg));siteToast('Alterações salvas ✓');}
+  catch(e){siteToast('Erro ao salvar');}
+}
+function restoreSiteConfig(){
+  let cfg;try{cfg=JSON.parse(localStorage.getItem('jr-site-config'));}catch(e){}
+  if(!cfg)return;
+  Object.keys(cfg).forEach(id=>{
+    const el=document.getElementById(id);if(!el||el.type==='file')return;
+    el.value=cfg[id];
+    el.dispatchEvent(new Event('input',{bubbles:true}));
+    el.dispatchEvent(new Event('change',{bubbles:true}));
+  });
+}
+function loadLogo(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{try{localStorage.setItem('jr-logo',e.target.result);}catch(err){}applyLogo();siteToast('Logo aplicada ✓');};
+  r.readAsDataURL(f);
+}
+function applyLogo(){
+  try{const l=localStorage.getItem('jr-logo');if(!l)return;
+    const img=document.getElementById('site-logo');if(img){img.src=l;img.style.display='block';}
+    const m=document.getElementById('monogram-display');if(m)m.style.display='none';
+  }catch(e){}
+}
+function removeLogo(){
+  try{localStorage.removeItem('jr-logo');}catch(e){}
+  const img=document.getElementById('site-logo');if(img)img.style.display='none';
+  const m=document.getElementById('monogram-display');if(m)m.style.display='';
+  siteToast('Logo removida');
+}
+restoreSiteConfig();applyLogo();
 </script>
 
 </body></html>
