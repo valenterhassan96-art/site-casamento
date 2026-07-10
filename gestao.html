@@ -47,6 +47,10 @@ body{font-family:'Fraunces',Georgia,serif;background:var(--cream);color:var(--te
 .convite-pin input{width:52px;border:none;background:transparent;font:inherit;font-weight:700;color:var(--rosa-deep);text-align:center;outline:none;border-bottom:1px dashed var(--rosa-soft)}
 .convite-count{font-size:.55rem;color:var(--text-soft);margin-left:auto}
 .convite-status-sel,.status-sel{padding:3px 8px;border:1px solid #e8e0e0;border-radius:8px;font-size:.58rem;font-family:inherit;background:#fff;cursor:pointer;outline:none}
+.mini-sel{padding:3px 4px;border:1px solid #e8e0e0;border-radius:8px;font-size:.54rem;font-family:inherit;background:#fff;cursor:pointer;outline:none;max-width:86px}
+.add-sel{width:100%;padding:9px 12px;border:1.5px solid var(--rosa-soft);border-radius:10px;font-family:inherit;font-size:.82rem;background:#fff;outline:none}
+.todos-sec{display:flex;align-items:center;justify-content:space-between;margin:16px 0 4px;padding:7px 12px;background:var(--rosa-cream);border-radius:9px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa-deep);font-weight:700}
+.todos-sec b{font-family:'Great Vibes',cursive;font-size:1.15rem;letter-spacing:0}
 .convite-members{display:flex;flex-direction:column;gap:4px;margin-top:8px}
 .convite-member{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;background:var(--rosa-cream);font-size:.78rem}
 .convite-member .mphone{margin-left:auto;font-size:.55rem;color:var(--text-soft);font-family:-apple-system,sans-serif}
@@ -161,7 +165,7 @@ body{font-family:'Fraunces',Georgia,serif;background:var(--cream);color:var(--te
 </div>
 
 <div class="todos-area" id="tab-todos" style="display:none">
-  <div style="margin:14px 0 10px"><button class="new-convite-btn" onclick="addGuestPrompt()">+ Adicionar novo convidado</button></div>
+  <div style="margin:14px 0 10px"><button class="new-convite-btn" onclick="openAddModal()">+ Adicionar novo convidado</button></div>
   <div id="todos-list"></div>
 </div>
 
@@ -172,6 +176,32 @@ body{font-family:'Fraunces',Georgia,serif;background:var(--cream);color:var(--te
     <p class="modal-sub" id="modal-sub">Selecione quem incluir neste convite</p>
     <input type="text" class="modal-search" id="modal-search" placeholder="Buscar..." oninput="renderModal()">
     <div class="modal-list" id="modal-list"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="add-modal" onclick="if(event.target===this)closeAddModal()">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeAddModal()">✕</button>
+    <h3>Novo convidado</h3>
+    <p class="modal-sub">Preencha e escolha o convite</p>
+    <div class="field"><label>Nome completo</label><input id="add-name" placeholder="Nome do convidado"></div>
+    <div class="field"><label>Lado</label>
+      <select id="add-side" class="add-sel">
+        <option value="jessica">💐 Convidado(a) da Noiva</option>
+        <option value="rhassan">🤵 Convidado(a) do Noivo</option>
+        <option value="outros">• Outros</option>
+      </select>
+    </div>
+    <div class="field"><label>Faixa etária</label>
+      <select id="add-kid" class="add-sel">
+        <option value="adult">🧑 Adulto</option>
+        <option value="kid">👶 Criança</option>
+      </select>
+    </div>
+    <div class="field"><label>Convite</label>
+      <select id="add-convite" class="add-sel"></select>
+    </div>
+    <button class="save-btn" style="width:100%;justify-content:center;margin-top:6px" onclick="submitAddGuest()">Adicionar convidado</button>
   </div>
 </div>
 
@@ -263,28 +293,43 @@ function renderConvites(){
   c.innerHTML=html;
 }
 
+function todoRow(g){
+  const cv=getGuestConvite(g.id);
+  const other=(g.list!=='jessica'&&g.list!=='rhassan');
+  return `<div class="guest-row" data-s="${g.status}">
+    <div class="guest-name-cell">${esc(g.name)} ${guestBadge(g)}
+      ${cv?`<span class="convite-pin" style="font-size:.45rem;padding:1px 6px">🔒 ${esc(String(cv.pin))}</span>`:'<span style="font-size:.5rem;color:#ccc">sem convite</span>'}
+    </div>
+    <select class="mini-sel" title="Lado" onchange="setGuestSide(${g.id},this.value)">
+      <option value="jessica" ${g.list==='jessica'?'selected':''}>💐 Noiva</option>
+      <option value="rhassan" ${g.list==='rhassan'?'selected':''}>🤵 Noivo</option>
+      <option value="outros" ${other?'selected':''}>• Outro</option>
+    </select>
+    <select class="mini-sel" title="Faixa etária" onchange="setGuestKid(${g.id},this.value)">
+      <option value="adult" ${!g.kid?'selected':''}>Adulto</option>
+      <option value="kid" ${g.kid?'selected':''}>Criança</option>
+    </select>
+    <select class="status-sel" onchange="setGuestStatus(${g.id},this.value)">
+      <option value="pending" ${g.status==='pending'?'selected':''}>⏳</option>
+      <option value="confirmed" ${g.status==='confirmed'?'selected':''}>✅</option>
+      <option value="declined" ${g.status==='declined'?'selected':''}>❌</option>
+    </select>
+  </div>`;
+}
 function renderTodos(){
-  const query=q(),c=document.getElementById('todos-list');let html='';
+  const query=q(),c=document.getElementById('todos-list');
   let list=ST.guests.filter(g=>{
     if(query && !(g.name.toLowerCase().includes(query)||(g.convite||'').toLowerCase().includes(query)))return false;
     return matchesFilter(g);
   });
-  list.forEach(g=>{
-    const cv=getGuestConvite(g.id);
-    html+=`<div class="guest-row" data-s="${g.status}">
-      <div class="guest-name-cell">${guestTag(g)} ${esc(g.name)} ${guestBadge(g)}
-        ${cv?`<span class="convite-pin" style="font-size:.45rem;padding:1px 6px">🔒 ${esc(String(cv.pin))}</span>`:'<span style="font-size:.5rem;color:#ccc">sem convite</span>'}
-      </div>
-      <select class="status-sel" onchange="setGuestStatus(${g.id},this.value)">
-        <option value="pending" ${g.status==='pending'?'selected':''}>⏳</option>
-        <option value="confirmed" ${g.status==='confirmed'?'selected':''}>✅</option>
-        <option value="declined" ${g.status==='declined'?'selected':''}>❌</option>
-      </select>
-    </div>`;
-  });
+  const adults=list.filter(g=>!g.kid), kids=list.filter(g=>g.kid);
+  function sec(title,icon,arr){return arr.length?`<div class="todos-sec"><span>${icon} ${title}</span><b>${arr.length}</b></div>`+arr.map(todoRow).join(''):'';}
+  let html=sec('Adultos','🧑',adults)+sec('Crianças','👶',kids);
   if(!html)html='<p style="text-align:center;color:var(--text-soft);font-size:.75rem;padding:20px">Nenhum convidado encontrado.</p>';
   c.innerHTML=html;
 }
+function setGuestSide(gid,val){const g=guest(gid);if(g){g.list=val;afterChange();}}
+function setGuestKid(gid,val){const g=guest(gid);if(g){g.kid=(val==='kid');g.age=g.kid?'Criança':'Adulto';afterChange();}}
 
 function updateStats(){
   const total=ST.guests.length;
@@ -318,12 +363,32 @@ function removeMember(cvId,gid){const cv=convite(cvId);if(!cv)return;cv.members=
 function deleteConvite(cvId){if(!confirm('Excluir este convite? Os convidados voltam para "sem convite".'))return;ST.convites=ST.convites.filter(c=>c.id!==cvId);afterChange();}
 function createConvite(){const id=ST.nextConviteId++;ST.convites.unshift({id,name:'Novo convite',pin:String(Math.floor(1000+Math.random()*9000)),members:[],status:'pending'});afterChange();openModal(id);}
 
-function addGuestPrompt(){
-  const name=prompt('Nome completo do novo convidado:');if(!name||!name.trim())return;
-  const side=prompt('Lado? digite "noiva", "noivo" ou deixe vazio:','')||'';
-  let list='outros';if(/noiva/i.test(side))list='jessica';else if(/noivo/i.test(side))list='rhassan';
-  const g={id:ST.nextGuestId++,name:name.trim(),convite:'',list,kid:false,role:'',phone:'',email:'',tags:'',age:'Adulto',exact:'',status:'pending'};
-  ST.guests.push(g);afterChange();showToast('Convidado adicionado');
+function openAddModal(){
+  const sel=document.getElementById('add-convite');
+  sel.innerHTML='<option value="__new">➕ Criar novo convite (individual)</option>'+ST.convites.map(c=>`<option value="${c.id}">${esc(c.name)} — 🔒 ${esc(String(c.pin))}</option>`).join('');
+  document.getElementById('add-name').value='';
+  document.getElementById('add-side').value='jessica';
+  document.getElementById('add-kid').value='adult';
+  document.getElementById('add-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('add-name').focus(),50);
+}
+function closeAddModal(){document.getElementById('add-modal').classList.remove('show');}
+function submitAddGuest(){
+  const name=document.getElementById('add-name').value.trim();
+  if(!name){document.getElementById('add-name').focus();return;}
+  const side=document.getElementById('add-side').value;
+  const isKid=document.getElementById('add-kid').value==='kid';
+  const conv=document.getElementById('add-convite').value;
+  const g={id:ST.nextGuestId++,name,convite:'',list:side,kid:isKid,role:'',phone:'',email:'',tags:'',age:isKid?'Criança':'Adulto',exact:'',status:'pending'};
+  ST.guests.push(g);
+  if(conv==='__new'){
+    const cv={id:ST.nextConviteId++,name,pin:String(Math.floor(1000+Math.random()*9000)),members:[g.id],status:'pending'};
+    ST.convites.unshift(cv);g.convite=cv.name;
+  }else{
+    const cv=convite(parseInt(conv));
+    if(cv){cv.members.push(g.id);g.convite=cv.name;recalcConvite(cv);}
+  }
+  closeAddModal();afterChange();showToast('Convidado adicionado ✓');
 }
 
 // ═══ modal ═══

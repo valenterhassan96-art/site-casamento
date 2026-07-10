@@ -922,13 +922,10 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma <b>nova 
   <div class="rsvp-group-card rv d2" id="rsvp-step-group" style="position:relative;z-index:2;display:none">
     <button type="button" class="rsvp-change-link" onclick="rsvpReset()">← Buscar outro nome</button>
     <p class="rsvp-group-title" id="rsvp-group-label">—</p>
-    <p class="rsvp-group-sub">Marque quem vai comparecer</p>
+    <div id="rsvp-dress-slot"></div>
+    <p class="rsvp-group-sub">Quem vai comparecer?</p>
     <div id="rsvp-group-members"></div>
-    <div class="rsvp-field" style="margin-top:14px">
-      <label for="rsvp-restricao">Restrição alimentar (opcional)</label>
-      <input type="text" id="rsvp-restricao" placeholder="Ex: vegetariano, sem glúten...">
-    </div>
-    <button type="button" class="btn btn-rsvp" style="width:100%;justify-content:center;margin-top:6px" onclick="sendRsvp()">💌 Enviar Confirmação</button>
+    <button type="button" class="btn btn-rsvp" style="width:100%;justify-content:center;margin-top:16px" onclick="sendRsvp()">💌 Enviar Confirmação</button>
   </div>
 
   <p class="rv d2" style="position:relative;z-index:2;font-size:.68rem;color:var(--text-soft);margin-top:14px;max-width:320px;margin-left:auto;margin-right:auto">Não achou seu nome? Fale diretamente com os noivos.</p>
@@ -1151,9 +1148,9 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
     <!-- CONVIDADOS / RSVP INTERNO -->
     <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">📋</span> Convidados <span class="acc-arrow">▼</span></button>
     <div class="acc-content">
-      <p style="font-size:9px;color:#bbb;margin-bottom:8px">Cada convite pode ter uma ou várias pessoas (ex: "Família Silva"). Só os nomes cadastrados aqui aparecem na busca do site — o convidado não pode adicionar ninguém além disso. Marque "confirmado" aqui assim que receber a mensagem de WhatsApp.</p>
-      <div id="guest-editor"></div>
-      <button class="add-btn" onclick="addGuestInvite()">+ Adicionar convite / família</button>
+      <p style="font-size:10px;color:#999;margin-bottom:8px">Toda a lista de convidados (nomes, convites, PINs, confirmações, telefones) é gerenciada na página completa de gestão. A busca do site e o contador usam exatamente esses dados.</p>
+      <a href="gestao.html" class="export-btn" style="display:block;text-align:center;text-decoration:none;background:var(--rosa)">📋 Abrir gestão de convidados</a>
+      <p style="font-size:9px;color:#bbb;margin-top:6px">As alterações feitas lá aparecem aqui automaticamente (mesmo navegador).</p>
     </div></div>
 
     <!-- SEGURANÇA -->
@@ -1179,12 +1176,35 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
 
     <!-- SALVAR / GESTÃO / EXPORT -->
     <button class="export-btn" style="background:var(--verde);margin-top:16px" onclick="saveSiteConfig()">💾 Salvar alterações</button>
+    <button class="export-btn" style="background:var(--gold);margin-top:8px" onclick="toggleLayoutMode()">🎨 Editar layout da página</button>
     <a href="gestao.html" class="export-btn" style="display:block;text-align:center;text-decoration:none;background:var(--rosa);margin-top:8px">📋 Gerenciar convidados (página completa)</a>
     <button class="export-btn" onclick="exportJSON()" style="margin-top:8px;background:#8a7b7b">📋 Exportar JSON de tudo</button>
     <p style="font-size:9px;color:#aaa;text-align:center;margin-top:6px">“Salvar” guarda o design/textos neste navegador. Para todos os convidados verem, é preciso publicar o arquivo.</p>
   </div>
 </div>
 
+<script id="jr-seed">window.JR_SEED={"guests":[{"id":1,"name":"Natan Valente","convite":"Natan Valente \u0026 Família","list":"rhassan","kid":false,"role":"","phone":"+554197400866","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":2,"name":"Rachel Santana","convite":"Natan Valente \u0026 Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":3,"name":"Isis Valente","convite":"Natan Valente \u0026 Família","list":"rhassan","kid":true,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Criança","exact":"1 ano","status":"confirmed"},{"id":4,"name":"José Valente","convite":"José Valente e Josenilda","list":"rhassan","kid":false,"role":"","phone":"+5592991436308","email":"","tags":"Família do Noivo, Pai do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":5,"name":"Josenilda Valente","convite":"José Valente e Josenilda","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo, Mãe do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":6,"name":"Jackson Valente","convite":"Jackson Valente e Família","list":"rhassan","kid":false,"role":"","phone":"+5593991635967","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":7,"name":"Fabiana Valente","convite":"Jackson Valente e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":8,"name":"Enzo","convite":"Jackson Valente e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":9,"name":"Heloana","convite":"Jackson Valente e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":10,"name":"Maria Dilma Valente","convite":"Maria Dilma e Acompanhante","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo, Avó Paterna","age":"Adulto","exact":"","status":"confirmed"},{"id":11,"name":"Rayara Valente","convite":"Maria Dilma e Acompanhante","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":12,"name":"Durvalina Boa Ventura","convite":"Durvalina Boa Ventura","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo, Avó Materna","age":"Adulto","exact":"","status":"pending"},{"id":13,"name":"Delma Ferreira Paixão","convite":"Delma e Família","list":"rhassan","kid":false,"role":"","phone":"+5592992317948","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":14,"name":"Vander Paixão","convite":"Delma e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":15,"name":"Vanderson Paixão","convite":"Delma e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":16,"name":"Lívia Paixão","convite":"Delma e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"confirmed"},{"id":17,"name":"Maria Aurenice Ferreira","convite":"Aurenice Ferreira","list":"rhassan","kid":false,"role":"","phone":"+5592999963490","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":18,"name":"Willy Machado","convite":"Willy e Família","list":"rhassan","kid":false,"role":"","phone":"+5592981380909","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":19,"name":"Vanessa Cunha","convite":"Willy e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":20,"name":"Maria Julia","convite":"Willy e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":21,"name":"Dan Machado","convite":"Dan e Família","list":"rhassan","kid":false,"role":"","phone":"+5592991195976","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":22,"name":"Louizi Santos","convite":"Dan e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":23,"name":"Guilherme","convite":"Dan e Família","list":"rhassan","kid":true,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Criança","exact":"Idade desconhecida","status":"pending"},{"id":24,"name":"Jucicleide Ferreira","convite":"Jucicleide e Família","list":"rhassan","kid":false,"role":"","phone":"+5592984139358","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":25,"name":"Caleu Ferreira","convite":"Jucicleide e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":26,"name":"Camila Ferreira","convite":"Jucicleide e Família","list":"rhassan","kid":false,"role":"","phone":"","email":"","tags":"Família do Noivo","age":"Adulto","exact":"","status":"pending"},{"id":27,"name":"Kesiane Adegas","convite":"Kesiane e Família","list":"outros","kid":false,"role":"padrinho","phone":"+5592992204368","email":"","tags":"Padrinhos, Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":28,"name":"Ismael Adegas","convite":"Kesiane e Família","list":"outros","kid":false,"role":"padrinho","phone":"","email":"","tags":"Padrinhos, Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":29,"name":"Luan Adegas","convite":"Kesiane e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":30,"name":"Icaro Adegas","convite":"Kesiane e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":31,"name":"Luana Oliveira","convite":"Luana e Família","list":"outros","kid":false,"role":"","phone":"+5592982379139","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":32,"name":"Cecília","convite":"Luana e Família","list":"outros","kid":true,"role":"","phone":"","email":"","tags":"Sagrada","age":"Criança","exact":"Idade desconhecida","status":"pending"},{"id":33,"name":"Gabrielli Silva","convite":"Gabrielli Silva","list":"outros","kid":false,"role":"mademoiselle","phone":"+5592996162975","email":"","tags":"Mademoiselles, Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":34,"name":"Heitor Peter","convite":"Gabrielli Silva","list":"outros","kid":true,"role":"","phone":"","email":"","tags":"Sagrada","age":"Criança","exact":"Idade desconhecida","status":"pending"},{"id":35,"name":"Mario Junio","convite":"Mario e Família","list":"outros","kid":false,"role":"","phone":"+5592982792638","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":36,"name":"Lina Raelly","convite":"Mario e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":37,"name":"Ravena","convite":"Mario e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":38,"name":"Rafael Rocha","convite":"Rafael Rocha","list":"outros","kid":false,"role":"","phone":"+5592994904403","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":39,"name":"Silvia Paiva","convite":"Silvia e Família","list":"outros","kid":false,"role":"","phone":"+5592991007457","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":40,"name":"Marcão","convite":"Silvia e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":41,"name":"Cleunice Cerdeira","convite":"Cleunice e Euzébio","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":42,"name":"Euzébio","convite":"Cleunice e Euzébio","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":43,"name":"Domices Cerdeira","convite":"Domices","list":"outros","kid":false,"role":"","phone":"+5592992578697","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":44,"name":"Rodrigo Comim","convite":"Rodrigo e Tânia Comim","list":"outros","kid":false,"role":"","phone":"+5592981945800","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":45,"name":"Tânia Comim","convite":"Rodrigo e Tânia Comim","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Sagrada","age":"Adulto","exact":"","status":"pending"},{"id":46,"name":"Mayara Arquello","convite":"Mayara Arquello","list":"outros","kid":false,"role":"mademoiselle","phone":"+5592993180806","email":"","tags":"Mademoiselles","age":"Adulto","exact":"","status":"pending"},{"id":47,"name":"Angélica Liborio","convite":"Angélica Liborio","list":"outros","kid":false,"role":"","phone":"+5597991525972","email":"","tags":"Convidada de Honra","age":"Adulto","exact":"","status":"pending"},{"id":48,"name":"Maria Eduarda Salerno","convite":"Amigos da Bom Preço","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos da Bom Preço","age":"Adulto","exact":"","status":"pending"},{"id":49,"name":"Paulo Kauan","convite":"Amigos da Bom Preço","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos da Bom Preço","age":"Adulto","exact":"","status":"pending"},{"id":50,"name":"Jefferson Lopes","convite":"Amigos da Bom Preço","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos da Bom Preço","age":"Adulto","exact":"","status":"pending"},{"id":51,"name":"Marília Rocha","convite":"Amigos da Bom Preço","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos da Bom Preço","age":"Adulto","exact":"","status":"pending"},{"id":52,"name":"Wanderlan do Anjos","convite":"Amigos da Bom Preço","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos da Bom Preço","age":"Adulto","exact":"","status":"pending"},{"id":53,"name":"Marcelo Picanço","convite":"Marcelo e Família","list":"outros","kid":false,"role":"","phone":"+5592992617048","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":54,"name":"Joyce Eleutério","convite":"Marcelo e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":55,"name":"Padre Humberto","convite":"Padres","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Padres","age":"Adulto","exact":"","status":"pending"},{"id":56,"name":"Padre Chichão","convite":"Padres","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Padres","age":"Adulto","exact":"","status":"pending"},{"id":57,"name":"Fabian Mafra","convite":"Fabian e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"confirmed"},{"id":58,"name":"Suely Mafra","convite":"Fabian e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"confirmed"},{"id":59,"name":"Fabian Jr","convite":"Fabian e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"confirmed"},{"id":60,"name":"Noemia Araújo","convite":"Noemia e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":61,"name":"Gabriel","convite":"Noemia e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":62,"name":"Karol","convite":"Noemia e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":63,"name":"Bento","convite":"Noemia e Família","list":"jessica","kid":true,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Criança","exact":"Idade desconhecida","status":"pending"},{"id":64,"name":"Maria do Carmo","convite":"Maria do Carmo e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva, Avó Paterna","age":"Adulto","exact":"","status":"pending"},{"id":65,"name":"Edilene Mafra","convite":"Maria do Carmo e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":66,"name":"Fabrício Mafra","convite":"Maria do Carmo e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":67,"name":"Junior","convite":"Maria do Carmo e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":68,"name":"Iraci Araújo","convite":"Iraci e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":69,"name":"Erica Araújo","convite":"Iraci e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":70,"name":"Aglair Mafra","convite":"Aglair e Família","list":"jessica","kid":false,"role":"","phone":"+5592991705255","email":"","tags":"Família da Noiva, Tia-Avó Noiva","age":"Adulto","exact":"","status":"pending"},{"id":71,"name":"Michele Maurício","convite":"Aglair e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":72,"name":"Gracinha Mafra","convite":"Aglair e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":73,"name":"Andre Saint Clair","convite":"Bruna e André","list":"jessica","kid":false,"role":"","phone":"+5592984432227","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":74,"name":"Bruna Cavalcanti","convite":"Bruna e André","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":75,"name":"Tia Tinha","convite":"Tia Tinha e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":76,"name":"Tereza","convite":"Tia Tinha e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":77,"name":"Graça Mafra","convite":"Tia Graça e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":78,"name":"Ricardo Mafra","convite":"Tia Graça e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":79,"name":"Neia","convite":"Tia Neia e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":80,"name":"Ana","convite":"Tia Neia e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":81,"name":"Helena","convite":"Helena e Guto","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":82,"name":"Guto","convite":"Helena e Guto","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":83,"name":"Edimeia","convite":"Edimeia","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":84,"name":"Beth","convite":"Beth","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":85,"name":"Sarah Fialho","convite":"Sarah e Família","list":"outros","kid":false,"role":"madrinha","phone":"+5592996072439","email":"","tags":"Madrinha, Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":86,"name":"Aramis Campos","convite":"Sarah e Família","list":"outros","kid":false,"role":"madrinha","phone":"","email":"","tags":"Madrinha, Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":87,"name":"Socorro Fialho","convite":"Sarah e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":88,"name":"Sônia Fialho","convite":"Sarah e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":89,"name":"Cley Fialho","convite":"Sarah e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":90,"name":"Nelson Fialho","convite":"Sarah e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":91,"name":"Felipe Fialho","convite":"Sarah e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":92,"name":"Rosangela","convite":"Rosangela","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos","age":"Adulto","exact":"","status":"pending"},{"id":93,"name":"Amanda","convite":"Amanda e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":94,"name":"Sofia Iara","convite":"Amanda e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José, Florista","age":"Adulto","exact":"","status":"pending"},{"id":95,"name":"Joyce de Paula","convite":"Joyce de Paula","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":96,"name":"Silvana","convite":"Silvana e Família","list":"outros","kid":false,"role":"","phone":"+5592988534908","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":97,"name":"Charles André","convite":"Silvana e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":98,"name":"Lorenzo LIbório","convite":"Silvana e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":99,"name":"Wesley Oliveira","convite":"Wesley Oliveira","list":"outros","kid":false,"role":"","phone":"+5592991747508","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":100,"name":"Erica Costa","convite":"Erica e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":101,"name":"Damião","convite":"Erica e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":102,"name":"Cleide","convite":"Erica e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":103,"name":"Expedito","convite":"Erica e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":104,"name":"Karla","convite":"Karla e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":105,"name":"Hunna Yara","convite":"Karla e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":106,"name":"Patrícia Izel","convite":"Patrícia Izel","list":"outros","kid":false,"role":"","phone":"+5592984860894","email":"","tags":"Santuário São José","age":"Adulto","exact":"","status":"pending"},{"id":107,"name":"Liliene","convite":"Liliene e Lucas","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos","age":"Adulto","exact":"","status":"pending"},{"id":108,"name":"Lucas","convite":"Liliene e Lucas","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"Amigos","age":"Adulto","exact":"","status":"pending"},{"id":109,"name":"Stephane Figueiredo","convite":"Stephane Figueiredo","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":110,"name":"Henry Figueiredo","convite":"Stephane Figueiredo","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":111,"name":"Janete Figueiredo","convite":"Stephane Figueiredo","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":112,"name":"Marcelo Izel","convite":"Marcelo Izel e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":113,"name":"Claucione Izel","convite":"Marcelo Izel e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":114,"name":"Clara Izel","convite":"Marcelo Izel e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":115,"name":"João Marcelo Izel","convite":"Marcelo Izel e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":116,"name":"Junior Rufino","convite":"Marcelo Izel e Família","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":117,"name":"Julio Cesar","convite":"Julio César","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":118,"name":"Gilmar Araújo","convite":"Gilmar Araújo","list":"jessica","kid":false,"role":"","phone":"","email":"","tags":"Família da Noiva","age":"Adulto","exact":"","status":"pending"},{"id":119,"name":"André Záu","convite":"André Záu e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":120,"name":"Nilcione Záu","convite":"André Záu e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":121,"name":"Pedro Zaú","convite":"André Záu e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":122,"name":"Otávio Záu","convite":"André Záu e Família","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":123,"name":"Paulo Sergio","convite":"Paulo Sérgio e Renata","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":124,"name":"Renata","convite":"Paulo Sérgio e Renata","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":125,"name":"Nelson Valente","convite":"Nelson Valente e Marlene","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":126,"name":"Marlene","convite":"Nelson Valente e Marlene","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":127,"name":"Joelma Valente","convite":"Joelma Valente","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":128,"name":"Izabel","convite":"Izabel","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":129,"name":"Santana","convite":"Santana","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"},{"id":130,"name":"CIME","convite":"CIME","list":"outros","kid":false,"role":"","phone":"","email":"","tags":"","age":"Adulto","exact":"","status":"pending"}],"convites":[{"id":1,"name":"Natan Valente \u0026 Família","pin":"8605","members":[1,2,3],"status":"confirmed"},{"id":2,"name":"José Valente e Josenilda","pin":"7567","members":[4,5],"status":"confirmed"},{"id":3,"name":"Jackson Valente e Família","pin":"8569","members":[6,7,8,9],"status":"pending"},{"id":4,"name":"Maria Dilma e Acompanhante","pin":"3717","members":[10,11],"status":"partial"},{"id":5,"name":"Durvalina Boa Ventura","pin":"9493","members":[12],"status":"pending"},{"id":6,"name":"Delma e Família","pin":"3052","members":[13,14,15,16],"status":"confirmed"},{"id":7,"name":"Aurenice Ferreira","pin":"3150","members":[17],"status":"pending"},{"id":8,"name":"Willy e Família","pin":"7158","members":[18,19,20],"status":"pending"},{"id":9,"name":"Dan e Família","pin":"8445","members":[21,22,23],"status":"pending"},{"id":10,"name":"Jucicleide e Família","pin":"5743","members":[24,25,26],"status":"pending"},{"id":11,"name":"Kesiane e Família","pin":"7700","members":[27,28,29,30],"status":"pending"},{"id":12,"name":"Luana e Família","pin":"8742","members":[31,32],"status":"pending"},{"id":13,"name":"Gabrielli Silva","pin":"6792","members":[33,34],"status":"pending"},{"id":14,"name":"Mario e Família","pin":"7954","members":[35,36,37],"status":"pending"},{"id":15,"name":"Rafael Rocha","pin":"4576","members":[38],"status":"pending"},{"id":16,"name":"Silvia e Família","pin":"4411","members":[39,40],"status":"pending"},{"id":17,"name":"Cleunice e Euzébio","pin":"9799","members":[41,42],"status":"pending"},{"id":18,"name":"Domices","pin":"7233","members":[43],"status":"pending"},{"id":19,"name":"Rodrigo e Tânia Comim","pin":"3889","members":[44,45],"status":"pending"},{"id":20,"name":"Mayara Arquello","pin":"1400","members":[46],"status":"pending"},{"id":21,"name":"Angélica Liborio","pin":"5587","members":[47],"status":"pending"},{"id":22,"name":"Amigos da Bom Preço","pin":"7701","members":[48,49,50,51,52],"status":"pending"},{"id":23,"name":"Marcelo e Família","pin":"5448","members":[53,54],"status":"pending"},{"id":24,"name":"Padres","pin":"2616","members":[55,56],"status":"pending"},{"id":25,"name":"Fabian e Família","pin":"6389","members":[57,58,59],"status":"confirmed"},{"id":26,"name":"Noemia e Família","pin":"9905","members":[60,61,62,63],"status":"pending"},{"id":27,"name":"Maria do Carmo e Família","pin":"4484","members":[64,65,66,67],"status":"pending"},{"id":28,"name":"Iraci e Família","pin":"7739","members":[68,69],"status":"pending"},{"id":29,"name":"Aglair e Família","pin":"8148","members":[70,71,72],"status":"pending"},{"id":30,"name":"Bruna e André","pin":"9645","members":[73,74],"status":"pending"},{"id":31,"name":"Tia Tinha e Família","pin":"6884","members":[75,76],"status":"pending"},{"id":32,"name":"Tia Graça e Família","pin":"4205","members":[77,78],"status":"pending"},{"id":33,"name":"Tia Neia e Família","pin":"7873","members":[79,80],"status":"pending"},{"id":34,"name":"Helena e Guto","pin":"8350","members":[81,82],"status":"pending"},{"id":35,"name":"Edimeia","pin":"2847","members":[83],"status":"pending"},{"id":36,"name":"Beth","pin":"2065","members":[84],"status":"pending"},{"id":37,"name":"Sarah e Família","pin":"9646","members":[85,86,87,88,89,90,91],"status":"pending"},{"id":38,"name":"Rosangela","pin":"3813","members":[92],"status":"pending"},{"id":39,"name":"Amanda e Família","pin":"7570","members":[93,94],"status":"pending"},{"id":40,"name":"Joyce de Paula","pin":"6024","members":[95],"status":"pending"},{"id":41,"name":"Silvana e Família","pin":"8325","members":[96,97,98],"status":"pending"},{"id":42,"name":"Wesley Oliveira","pin":"3576","members":[99],"status":"pending"},{"id":43,"name":"Erica e Família","pin":"5530","members":[100,101,102,103],"status":"pending"},{"id":44,"name":"Karla e Família","pin":"4226","members":[104,105],"status":"pending"},{"id":45,"name":"Patrícia Izel","pin":"5966","members":[106],"status":"pending"},{"id":46,"name":"Liliene e Lucas","pin":"8827","members":[107,108],"status":"pending"},{"id":47,"name":"Stephane Figueiredo","pin":"8370","members":[109,110,111],"status":"pending"},{"id":48,"name":"Marcelo Izel e Família","pin":"5261","members":[112,113,114,115,116],"status":"pending"},{"id":49,"name":"Julio César","pin":"4000","members":[117],"status":"pending"},{"id":50,"name":"Gilmar Araújo","pin":"8692","members":[118],"status":"pending"},{"id":51,"name":"André Záu e Família","pin":"9929","members":[119,120,121,122],"status":"pending"},{"id":52,"name":"Paulo Sérgio e Renata","pin":"9909","members":[123,124],"status":"pending"},{"id":53,"name":"Nelson Valente e Marlene","pin":"3340","members":[125,126],"status":"pending"},{"id":54,"name":"Joelma Valente","pin":"7646","members":[127],"status":"pending"},{"id":55,"name":"Izabel","pin":"6351","members":[128],"status":"pending"},{"id":56,"name":"Santana","pin":"5983","members":[129],"status":"pending"},{"id":57,"name":"CIME","pin":"4783","members":[130],"status":"pending"}],"nextConviteId":58,"nextGuestId":131};</script>
+<style>
+/* RSVP — página única */
+.rsvp-dress{background:var(--rosa-cream);border:1px solid var(--rosa-pale);border-radius:12px;padding:12px 14px;margin:6px 0 16px;font-size:.72rem;color:var(--text-soft);line-height:1.5;text-align:left}
+.rsvp-dress .rsvp-dress-h{font-size:.82rem;color:var(--text);margin-bottom:4px}
+.rsvp-dress p{margin:2px 0}
+.rsvp-person{padding:12px 0;border-bottom:1px solid #f5eaee}
+.rsvp-person:last-of-type{border-bottom:none}
+.rsvp-person-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.rsvp-person-name{font-size:.9rem;color:var(--text);font-weight:500}
+.rsvp-toggle{display:inline-flex;border:1.5px solid var(--rosa-pale);border-radius:22px;overflow:hidden;background:#fff}
+.rsvp-toggle button{border:none;background:none;font-family:inherit;font-size:.64rem;padding:7px 11px;cursor:pointer;color:var(--text-soft);transition:all .2s;white-space:nowrap}
+.rsvp-toggle .rsvp-go.on{background:var(--rosa-deep);color:#fff}
+.rsvp-toggle .rsvp-no.on{background:#efe0e0;color:#8a5a5a}
+.rsvp-allergy{margin-top:10px}
+.rsvp-allergy-q{display:block;font-size:.68rem;color:var(--text-soft);margin-bottom:6px}
+.rsvp-yn{display:inline-flex;gap:6px;margin-bottom:8px}
+.rsvp-yn button{border:1.5px solid var(--rosa-pale);background:#fff;border-radius:14px;padding:4px 18px;font-family:inherit;font-size:.68rem;cursor:pointer;color:var(--text-soft);transition:all .2s}
+.rsvp-yn button.on{background:var(--rosa);color:#fff;border-color:var(--rosa)}
+.rsvp-allergy-box{width:100%;padding:9px 12px;border:1.5px solid var(--rosa-pale);border-radius:10px;font-family:'Fraunces',Georgia,serif;font-size:.82rem;color:var(--text);background:var(--cream);outline:none}
+.rsvp-allergy-box:focus{border-color:var(--rosa)}
+</style>
 <script>
 // ═══ ADMIN PIN GATE ═══
 let adminPin=localStorage.getItem('jr-admin-pin')||'0910';
@@ -1410,47 +1430,92 @@ function renderPetalEditor(){
 function addPetalColor(){petalColors.push('#ffffff');renderPetalEditor();initPetals();}
 renderPetalEditor();
 
-// ═══ CONVIDADOS / RSVP INTERNO ═══
-const defaultGuestList=[
-  {id:'g1',label:'Família Silva',members:[{name:'João Silva',confirmed:false},{name:'Maria Silva',confirmed:false},{name:'Ana Silva',confirmed:false}]},
-  {id:'g2',label:'Pedro Costa e Convidado(a)',members:[{name:'Pedro Costa',confirmed:false},{name:'Convidado(a) de Pedro',confirmed:false}]},
-  {id:'g3',label:'Camila Souza',members:[{name:'Camila Souza',confirmed:false}]},
-];
-let guestList=[];
-try{guestList=JSON.parse(localStorage.getItem('jr-guest-list'))||JSON.parse(JSON.stringify(defaultGuestList));}
-catch(e){guestList=JSON.parse(JSON.stringify(defaultGuestList));}
-function saveGuestList(){
-  localStorage.setItem('jr-guest-list',JSON.stringify(guestList));
-  updateRsvpCounter();
-}
-let rsvpActiveInvite=null;
+// ═══ FONTE ÚNICA DE DADOS — compartilhada com gestao.html (localStorage 'jr-gestao-v1') ═══
+const JR_LS='jr-gestao-v1';
+function jrLoad(){try{const s=JSON.parse(localStorage.getItem(JR_LS));if(s&&s.guests&&s.convites)return s;}catch(e){}return JSON.parse(JSON.stringify(window.JR_SEED||{guests:[],convites:[]}));}
+function jrSave(){try{localStorage.setItem(JR_LS,JSON.stringify(jrStore));}catch(e){}}
+let jrStore=jrLoad();
+function jrGuest(id){return jrStore.guests.find(g=>g.id===id);}
+function jrConvite(id){return jrStore.convites.find(c=>c.id===id);}
+function jrRecalc(cv){const mem=cv.members.map(jrGuest).filter(Boolean);const allC=mem.length&&mem.every(m=>m.status==='confirmed');const anyC=mem.some(m=>m.status==='confirmed');const allD=mem.length&&mem.every(m=>m.status==='declined');cv.status=allD?'declined':(allC?'confirmed':(anyC?'partial':'pending'));}
+function saveGuestList(){jrSave();updateRsvpCounter();} // compat
+
+let rsvpActiveInvite=null;   // convite selecionado
+let rsvpDraft={};            // gid -> {going, allergyYes}
+let rsvpGroupCardHTML='';    // HTML original do card (para restaurar após sucesso)
 
 function rsvpSearch(q){
   const box=document.getElementById('rsvp-suggestions');
-  q=q.trim().toLowerCase();
+  q=(q||'').trim().toLowerCase();
   if(!q){box.style.display='none';box.innerHTML='';return;}
-  const matches=guestList.filter(inv=>
-    inv.label.toLowerCase().includes(q)||inv.members.some(m=>m.name.toLowerCase().includes(q))
-  );
-  if(!matches.length){
-    box.innerHTML='<div class="rsvp-empty">Nenhum convite encontrado com esse nome.</div>';
-    box.style.display='block';return;
-  }
-  box.innerHTML=matches.map(inv=>
-    `<button type="button" class="rsvp-suggestion" onclick="rsvpSelect('${inv.id}')">${inv.label}<small>${inv.members.map(m=>m.name).join(', ')}</small></button>`
-  ).join('');
+  const matches=jrStore.convites.filter(cv=>
+    cv.name.toLowerCase().includes(q)||String(cv.pin).includes(q)||cv.members.some(mid=>{const g=jrGuest(mid);return g&&g.name.toLowerCase().includes(q);})
+  ).slice(0,8);
+  if(!matches.length){box.innerHTML='<div class="rsvp-empty">Nenhum convite encontrado com esse nome.</div>';box.style.display='block';return;}
+  box.innerHTML=matches.map(cv=>{
+    const names=cv.members.map(mid=>{const g=jrGuest(mid);return g?g.name:'';}).filter(Boolean).join(', ');
+    return `<button type="button" class="rsvp-suggestion" onclick="rsvpSelect(${cv.id})">${cv.name}<small>${names}</small></button>`;
+  }).join('');
   box.style.display='block';
 }
+function trajesSummary(){
+  const g=id=>((document.getElementById(id)||{}).textContent||'').trim();
+  const dt=g('dress-type-2')||'Esporte Fino', dn=g('dress-type-note'), rt=g('reserved-tones');
+  return `<div class="rsvp-dress">
+    <p class="rsvp-dress-h">👗 Traje: <b>${dt}</b></p>
+    ${dn?`<p>${dn}</p>`:''}
+    <p>• Evite o <b>branco</b> — reservado à noiva.</p>
+    ${rt?`<p>• Tons reservados ao cortejo: ${rt}.</p>`:''}
+  </div>`;
+}
 function rsvpSelect(id){
-  rsvpActiveInvite=guestList.find(g=>g.id===id);
+  rsvpActiveInvite=jrConvite(id);
   if(!rsvpActiveInvite)return;
+  rsvpDraft={};
   document.getElementById('rsvp-suggestions').style.display='none';
   document.getElementById('rsvp-step-search').style.display='none';
   document.getElementById('rsvp-step-group').style.display='block';
-  document.getElementById('rsvp-group-label').textContent=rsvpActiveInvite.label;
-  document.getElementById('rsvp-group-members').innerHTML=rsvpActiveInvite.members.map((m,i)=>
-    `<div class="rsvp-member"><input type="checkbox" id="rsvp-m-${i}" checked><label for="rsvp-m-${i}">${m.name}</label></div>`
-  ).join('');
+  document.getElementById('rsvp-group-label').textContent=rsvpActiveInvite.name;
+  document.getElementById('rsvp-dress-slot').innerHTML=trajesSummary();
+  document.getElementById('rsvp-group-members').innerHTML=rsvpActiveInvite.members.map(mid=>{
+    const g=jrGuest(mid);if(!g)return '';
+    const going=g.status!=='declined';
+    const hasR=!!(g.restr&&g.restr.trim());
+    rsvpDraft[g.id]={going:going,allergyYes:hasR};
+    const rv=(g.restr||'').replace(/"/g,'&quot;');
+    return `<div class="rsvp-person" data-gid="${g.id}">
+      <div class="rsvp-person-head">
+        <span class="rsvp-person-name">${g.name}</span>
+        <div class="rsvp-toggle" id="tg-${g.id}">
+          <button type="button" class="rsvp-go ${going?'on':''}" onclick="setGoing(${g.id},true)">✓ Irá comparecer</button>
+          <button type="button" class="rsvp-no ${going?'':'on'}" onclick="setGoing(${g.id},false)">✕ Não irá</button>
+        </div>
+      </div>
+      <div class="rsvp-allergy" id="alg-${g.id}" style="${going?'':'display:none'}">
+        <span class="rsvp-allergy-q">Possui restrição ou alergia alimentar?</span>
+        <div class="rsvp-yn" id="yn-${g.id}">
+          <button type="button" class="${hasR?'':'on'}" onclick="setAllergy(${g.id},false)">Não</button>
+          <button type="button" class="${hasR?'on':''}" onclick="setAllergy(${g.id},true)">Sim</button>
+        </div>
+        <input type="text" id="algtxt-${g.id}" class="rsvp-allergy-box" placeholder="Descreva (ex: sem glúten, alergia a frutos do mar...)" value="${rv}" style="${hasR?'':'display:none'}">
+      </div>
+    </div>`;
+  }).join('');
+}
+function setGoing(gid,val){
+  rsvpDraft[gid]=rsvpDraft[gid]||{};rsvpDraft[gid].going=val;
+  const tg=document.getElementById('tg-'+gid);
+  tg.querySelector('.rsvp-go').classList.toggle('on',val);
+  tg.querySelector('.rsvp-no').classList.toggle('on',!val);
+  document.getElementById('alg-'+gid).style.display=val?'block':'none';
+}
+function setAllergy(gid,yes){
+  rsvpDraft[gid]=rsvpDraft[gid]||{};rsvpDraft[gid].allergyYes=yes;
+  const yn=document.getElementById('yn-'+gid);
+  yn.children[0].classList.toggle('on',!yes);
+  yn.children[1].classList.toggle('on',yes);
+  const box=document.getElementById('algtxt-'+gid);
+  box.style.display=yes?'block':'none';if(!yes)box.value='';
 }
 function rsvpReset(){
   rsvpActiveInvite=null;
@@ -1461,60 +1526,43 @@ function rsvpReset(){
 }
 function sendRsvp(){
   if(!rsvpActiveInvite)return;
-  const going=[],notGoing=[];
-  rsvpActiveInvite.members.forEach((m,i)=>{
-    const checked=document.getElementById('rsvp-m-'+i).checked;
-    (checked?going:notGoing).push(m.name);
+  const cv=rsvpActiveInvite;
+  const going=[],notGoing=[],allergies=[];
+  cv.members.forEach(mid=>{
+    const g=jrGuest(mid);if(!g)return;
+    const d=rsvpDraft[g.id]||{going:true};
+    g.status=d.going?'confirmed':'declined';
+    const box=document.getElementById('algtxt-'+g.id);
+    const txt=(d.going&&d.allergyYes&&box)?box.value.trim():'';
+    g.restr=txt;
+    if(d.going){going.push(g.name);if(txt)allergies.push(g.name+': '+txt);}else notGoing.push(g.name);
   });
-  const restr=document.getElementById('rsvp-restricao').value.trim();
+  jrRecalc(cv);
+  jrSave();updateRsvpCounter();
   const phone=(document.getElementById('a-rsvp-phone')||{}).value||'';
-  let msg=`Confirmação de presença — ${rsvpActiveInvite.label}\nVão: ${going.length?going.join(', '):'ninguém'}`;
+  const digits=phone.replace(/\D/g,'');
+  let msg=`Confirmação de presença — ${cv.name}\nVão: ${going.length?going.join(', '):'ninguém'}`;
   if(notGoing.length)msg+=`\nNão vão: ${notGoing.join(', ')}`;
-  if(restr)msg+=`\nRestrição alimentar: ${restr}`;
-  const waUrl='https://wa.me/'+phone.replace(/\D/g,'')+'?text='+encodeURIComponent(msg);
-  window.open(waUrl,'_blank','noopener');
+  if(allergies.length)msg+=`\nRestrições: ${allergies.join(' | ')}`;
+  const card=document.getElementById('rsvp-step-group');
+  card.innerHTML=`<div style="text-align:center;padding:8px 0">
+    <p style="font-family:'Great Vibes',cursive;font-size:2rem;color:var(--rosa-deep);margin-bottom:4px">Obrigado!</p>
+    <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:16px">Presença de <b>${cv.name}</b> registrada 💛</p>
+    ${digits?`<a class="btn btn-rsvp" style="width:100%;justify-content:center" href="https://wa.me/${digits}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">📲 Avisar os noivos no WhatsApp</a>`:''}
+    <button type="button" class="rsvp-change-link" style="margin-top:16px" onclick="rsvpReset();restoreGroupCard()">← Confirmar outro convite</button>
+  </div>`;
 }
+function restoreGroupCard(){const c=document.getElementById('rsvp-step-group');if(rsvpGroupCardHTML)c.innerHTML=rsvpGroupCardHTML;}
 function updateRsvpCounter(){
-  let total=0,confirmed=0;
-  guestList.forEach(inv=>inv.members.forEach(m=>{total++;if(m.confirmed)confirmed++;}));
+  const total=jrStore.guests.length;
+  const confirmed=jrStore.guests.filter(g=>g.status==='confirmed').length;
   const pct=total?Math.round(confirmed/total*100):0;
   const cEl=document.getElementById('rsvp-count'),tEl=document.getElementById('rsvp-total'),fEl=document.getElementById('rsvp-counter-fill');
   if(cEl)cEl.textContent=confirmed;if(tEl)tEl.textContent=total;if(fEl)fEl.style.width=pct+'%';
 }
-
-// ═══ ADMIN: EDITOR DE CONVIDADOS ═══
-function renderGuestEditor(){
-  const c=document.getElementById('guest-editor');if(!c)return;
-  c.innerHTML=guestList.map((inv,gi)=>`
-    <div class="guest-edit">
-      <div class="guest-edit-name">
-        <input type="text" value="${inv.label}" oninput="guestList[${gi}].label=this.value;saveGuestList()" placeholder="Nome da família/convite">
-        <button class="del-btn" onclick="removeGuestInvite(${gi})">✕</button>
-      </div>
-      ${inv.members.map((m,mi)=>`
-        <div class="guest-edit-name" style="padding-left:8px">
-          <input type="checkbox" ${m.confirmed?'checked':''} title="Confirmado" onchange="guestList[${gi}].members[${mi}].confirmed=this.checked;saveGuestList()">
-          <input type="text" value="${m.name}" oninput="guestList[${gi}].members[${mi}].name=this.value;saveGuestList()" placeholder="Nome da pessoa">
-          <button class="del-btn" onclick="removeGuestMember(${gi},${mi})">✕</button>
-        </div>`).join('')}
-      <button class="guest-add-name" onclick="addGuestMember(${gi})">+ adicionar nome a este convite</button>
-    </div>`).join('');
-}
-function addGuestInvite(){
-  guestList.push({id:'g'+Date.now(),label:'Novo convite',members:[{name:'Nome do convidado',confirmed:false}]});
-  saveGuestList();renderGuestEditor();
-}
-function removeGuestInvite(gi){
-  guestList.splice(gi,1);saveGuestList();renderGuestEditor();
-}
-function addGuestMember(gi){
-  guestList[gi].members.push({name:'Novo nome',confirmed:false});
-  saveGuestList();renderGuestEditor();
-}
-function removeGuestMember(gi,mi){
-  guestList[gi].members.splice(mi,1);saveGuestList();renderGuestEditor();
-}
-renderGuestEditor();
+// editor antigo desativado — a gestão completa vive em gestao.html
+function renderGuestEditor(){}
+rsvpGroupCardHTML=(document.getElementById('rsvp-step-group')||{}).innerHTML||'';
 updateRsvpCounter();
 const pinField=document.getElementById('a-admin-pin');if(pinField)pinField.value=adminPin;
 
@@ -1533,7 +1581,7 @@ function exportJSON(){
     petalColors:petalColors,
     playlist:{url:document.getElementById('a-pl-url').value,label:document.getElementById('a-pl-label').value,note:document.getElementById('a-pl-note').value},
     rsvp:{url:document.getElementById('a-rsvp-url').value,deadline:document.getElementById('a-rsvp-deadline').value,phone:document.getElementById('a-rsvp-phone').value},
-    guestList:guestList,
+    gestao:jrStore,
   };
   navigator.clipboard.writeText(JSON.stringify(data,null,2)).then(()=>{
     const b=document.querySelector('.export-btn');b.textContent='✓ JSON Copiado!';b.style.background='#4caf50';
@@ -1597,6 +1645,98 @@ function removeLogo(){
   siteToast('Logo removida');
 }
 restoreSiteConfig();applyLogo();
+</script>
+
+<style>
+/* ═══ EDITOR DE LAYOUT ═══ */
+body.layout-edit section[id]{outline:2px dashed var(--rosa);outline-offset:-5px}
+body.layout-edit section[id].sec-hidden{opacity:.38}
+body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline-offset:2px;cursor:text}
+.ledit-tag{position:absolute;top:10px;left:10px;z-index:99990;background:var(--rosa-deep);color:#fff;font-size:10px;padding:2px 9px;border-radius:6px;font-family:-apple-system,sans-serif;letter-spacing:.04em}
+.ledit-bar{position:absolute;top:8px;right:8px;z-index:99990;display:flex;gap:4px;background:rgba(255,255,255,.96);border:1px solid var(--rosa-pale);border-radius:10px;padding:3px;box-shadow:0 4px 14px rgba(0,0,0,.16)}
+.ledit-bar button{width:32px;height:32px;border:none;background:var(--rosa-cream);border-radius:7px;cursor:pointer;font-size:14px;color:var(--rosa-deep);line-height:1}
+.ledit-bar button:hover{background:var(--rosa-pale)}
+.layout-toolbar{position:fixed;left:0;right:0;bottom:0;background:var(--rosa-deep);color:#fff;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:11px 14px;z-index:99991;box-shadow:0 -3px 16px rgba(0,0,0,.25)}
+.layout-toolbar .lt-hint{font-size:.64rem;opacity:.9}
+.layout-toolbar button{border:none;border-radius:10px;padding:10px 18px;font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:.8rem;cursor:pointer}
+.layout-toolbar .lt-save{background:#fff;color:var(--rosa-deep)}
+.layout-toolbar .lt-exit{background:rgba(255,255,255,.22);color:#fff}
+</style>
+<script>
+// ═══ EDITOR DE LAYOUT DAS PÁGINAS (reordenar / ocultar / editar títulos) ═══
+(function(){
+  const LAYOUT_LS='jr-layout';
+  const EDITABLE='.sec-title,.sec-label';
+  function sections(){return [].slice.call(document.querySelectorAll('body > section[id]'));}
+  function footerEl(){return document.querySelector('footer.footer')||document.querySelector('.footer');}
+  function editEls(sec){return [].slice.call(sec.querySelectorAll(EDITABLE));}
+
+  window.applyLayout=function(){
+    let cfg;try{cfg=JSON.parse(localStorage.getItem(LAYOUT_LS));}catch(e){}
+    if(!cfg)return;
+    const ft=footerEl();
+    if(cfg.order&&ft){cfg.order.forEach(function(id){const s=document.getElementById(id);if(s&&s.tagName==='SECTION')ft.parentNode.insertBefore(s,ft);});}
+    const hidden=new Set(cfg.hidden||[]);
+    sections().forEach(function(s){
+      const h=hidden.has(s.id);s.style.display=h?'none':'';
+      const nav=document.querySelector('.nav a[href="#'+s.id+'"]');if(nav)nav.style.display=h?'none':'';
+    });
+    if(cfg.text){Object.keys(cfg.text).forEach(function(lid){
+      const p=lid.split('::'),sec=document.getElementById(p[0]);if(!sec)return;
+      const el=editEls(sec)[+p[1]];if(el)el.innerHTML=cfg.text[lid];
+    });}
+  };
+
+  let mode=false;
+  window.toggleLayoutMode=function(){
+    mode=!mode;document.body.classList.toggle('layout-edit',mode);
+    if(mode){const ap=document.getElementById('admin-panel');if(ap&&ap.classList.contains('open'))toggleAdmin();buildControls();window.scrollTo(0,0);}
+    else{teardown();}
+  };
+  function buildControls(){
+    sections().forEach(function(s){
+      s.dataset.lhidden=(s.style.display==='none')?'1':'0';
+      if(s.style.display==='none')s.style.display='';
+      s.classList.toggle('sec-hidden',s.dataset.lhidden==='1');
+      if(getComputedStyle(s).position==='static')s.style.position='relative';
+      const tag=document.createElement('div');tag.className='ledit-tag';tag.textContent=s.id;s.appendChild(tag);
+      const bar=document.createElement('div');bar.className='ledit-bar';
+      bar.innerHTML='<button data-a="up" title="Subir">▲</button><button data-a="down" title="Descer">▼</button><button data-a="hide" title="Ocultar / mostrar">👁</button>';
+      bar.querySelector('[data-a=up]').onclick=function(){moveSec(s,-1);};
+      bar.querySelector('[data-a=down]').onclick=function(){moveSec(s,1);};
+      bar.querySelector('[data-a=hide]').onclick=function(){const h=s.classList.toggle('sec-hidden');s.dataset.lhidden=h?'1':'0';};
+      s.appendChild(bar);
+      editEls(s).forEach(function(el){el.setAttribute('contenteditable','true');});
+    });
+    const tb=document.createElement('div');tb.className='layout-toolbar';tb.id='layout-toolbar';
+    tb.innerHTML='<span class="lt-hint">▲▼ mover seção · 👁 ocultar · clique nos títulos para editar o texto</span><button class="lt-save">💾 Salvar layout</button><button class="lt-exit">Sair sem salvar</button>';
+    tb.querySelector('.lt-save').onclick=saveLayout;
+    tb.querySelector('.lt-exit').onclick=function(){toggleLayoutMode();};
+    document.body.appendChild(tb);
+  }
+  function moveSec(s,dir){
+    const secs=sections(),i=secs.indexOf(s),j=i+dir;
+    if(j<0||j>=secs.length)return;
+    if(dir<0)s.parentNode.insertBefore(s,secs[j]);
+    else s.parentNode.insertBefore(s,secs[j].nextSibling);
+    s.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function teardown(){
+    [].slice.call(document.querySelectorAll('.ledit-bar,.ledit-tag,#layout-toolbar')).forEach(function(e){e.remove();});
+    sections().forEach(function(s){s.classList.remove('sec-hidden');editEls(s).forEach(function(el){el.removeAttribute('contenteditable');});});
+    applyLayout();
+  }
+  function saveLayout(){
+    const order=sections().map(function(s){return s.id;});
+    const hidden=sections().filter(function(s){return s.classList.contains('sec-hidden');}).map(function(s){return s.id;});
+    const text={};
+    sections().forEach(function(s){editEls(s).forEach(function(el,idx){text[s.id+'::'+idx]=el.innerHTML;});});
+    try{localStorage.setItem(LAYOUT_LS,JSON.stringify({order:order,hidden:hidden,text:text}));}catch(e){}
+    if(window.siteToast)siteToast('Layout salvo ✓');
+    toggleLayoutMode();
+  }
+  applyLayout();
+})();
 </script>
 
 </body></html>
