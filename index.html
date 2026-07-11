@@ -1612,25 +1612,17 @@ const pinField=document.getElementById('a-admin-pin');if(pinField)pinField.value
 
 // ═══ EXPORT ═══
 function exportJSON(){
-  const data={
-    eyebrow:document.getElementById('a-eyebrow').value,
-    date:document.getElementById('a-date').value,
-    location:document.getElementById('a-loc').value,
-    storyTitle:document.getElementById('a-story-title').value,
-    storyText:document.getElementById('a-story-text').value,
-    ceremony:{local:document.getElementById('a-cer-local').value,addr:document.getElementById('a-cer-addr').value,time:document.getElementById('a-cer-time').value,map:document.getElementById('a-cer-map').value},
-    reception:{local:document.getElementById('a-rec-local').value,addr:document.getElementById('a-rec-addr').value,time:document.getElementById('a-rec-time').value,note:document.getElementById('a-rec-note').value,map:document.getElementById('a-rec-map')?.value},
-    timeline:timelineData,
-    swatches:swatches,
-    petalColors:petalColors,
-    playlist:{url:document.getElementById('a-pl-url').value,label:document.getElementById('a-pl-label').value,note:document.getElementById('a-pl-note').value},
-    rsvp:{url:document.getElementById('a-rsvp-url').value,deadline:document.getElementById('a-rsvp-deadline').value,phone:document.getElementById('a-rsvp-phone').value},
-    gestao:jrStore,
-  };
-  navigator.clipboard.writeText(JSON.stringify(data,null,2)).then(()=>{
-    const b=document.querySelector('.export-btn');b.textContent='✓ JSON Copiado!';b.style.background='#4caf50';
-    setTimeout(()=>{b.textContent='📋 Exportar JSON de tudo';b.style.background='';},2000);
+  // primeiro garante que a config atual esteja salva
+  try{saveSiteConfig();}catch(e){}
+  const snap={_exportedAt:new Date().toISOString()};
+  ['jr-site-config','jr-layout','jr-gifts','jr-logo','jr-favicon','jr-gestao-v1','jr-admin-pin'].forEach(function(k){
+    const v=localStorage.getItem(k);if(v!=null){try{snap[k]=JSON.parse(v);}catch(e){snap[k]=v;}}
   });
+  const blob=new Blob([JSON.stringify(snap,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='jr-backup-completo.json';a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+  if(window.siteToast)siteToast('Backup completo baixado ✓');
 }
 
 // ═══ NAV ACTIVE ═══
@@ -1657,6 +1649,13 @@ function saveSiteConfig(){
     if(el.type==='file')return;
     if(el.tagName==='INPUT'||el.tagName==='SELECT'||el.tagName==='TEXTAREA') cfg[el.id]=el.value;
   });
+  // cores CSS (variáveis sobrescritas em :root)
+  cfg.__colors={};
+  try{(cssVars||[]).forEach(function(p){const val=document.documentElement.style.getPropertyValue(p[1]);if(val)cfg.__colors[p[1]]=val.trim();});}catch(e){}
+  // pétalas e paleta
+  try{if(typeof petalColors!=='undefined')cfg.__petals=petalColors.slice();}catch(e){}
+  try{if(typeof swatches!=='undefined')cfg.__swatches=swatches.slice();}catch(e){}
+  try{if(typeof timelineData!=='undefined')cfg.__timeline=JSON.parse(JSON.stringify(timelineData));}catch(e){}
   try{localStorage.setItem('jr-site-config',JSON.stringify(cfg));siteToast('Alterações salvas ✓');}
   catch(e){siteToast('Erro ao salvar');}
 }
@@ -1664,11 +1663,20 @@ function restoreSiteConfig(){
   let cfg;try{cfg=JSON.parse(localStorage.getItem('jr-site-config'));}catch(e){}
   if(!cfg)return;
   Object.keys(cfg).forEach(id=>{
+    if(id.indexOf('__')===0)return;
     const el=document.getElementById(id);if(!el||el.type==='file')return;
     el.value=cfg[id];
     el.dispatchEvent(new Event('input',{bubbles:true}));
     el.dispatchEvent(new Event('change',{bubbles:true}));
   });
+  // cores
+  if(cfg.__colors){Object.keys(cfg.__colors).forEach(function(v){document.documentElement.style.setProperty(v,cfg.__colors[v]);});if(typeof renderCSSEditor==='function')renderCSSEditor();}
+  // pétalas
+  if(cfg.__petals&&typeof petalColors!=='undefined'){petalColors.length=0;cfg.__petals.forEach(function(c){petalColors.push(c);});if(typeof renderPetalEditor==='function')renderPetalEditor();if(typeof initPetals==='function')initPetals();}
+  // paleta de swatches
+  if(cfg.__swatches&&typeof swatches!=='undefined'){swatches.length=0;cfg.__swatches.forEach(function(c){swatches.push(c);});if(typeof renderSwatches==='function')renderSwatches();if(typeof renderSwatchEditor==='function')renderSwatchEditor();}
+  // timeline / programação
+  if(cfg.__timeline&&typeof timelineData!=='undefined'){timelineData.length=0;cfg.__timeline.forEach(function(t){timelineData.push(t);});if(typeof renderTL==='function')renderTL();if(typeof renderTLEditor==='function')renderTLEditor();}
 }
 function loadLogo(input){
   const f=input.files[0];if(!f)return;
