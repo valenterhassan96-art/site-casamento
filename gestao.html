@@ -51,6 +51,8 @@ body{font-family:'Fraunces',Georgia,serif;background:var(--cream);color:var(--te
 .name-edit{border:none;background:transparent;font-family:inherit;font-size:.78rem;color:var(--text);outline:none;border-bottom:1px dashed transparent;min-width:70px;flex:1 1 90px;padding:1px 0}
 .name-edit:hover{border-bottom-color:#eadfe4}
 .name-edit:focus{border-bottom-color:var(--rosa)}
+.row-del{border:none;background:none;color:#d9b3bf;cursor:pointer;font-size:12px;padding:2px 5px;border-radius:5px;flex-shrink:0}
+.row-del:hover{color:#c0392b;background:#fdecec}
 .add-sel{width:100%;padding:9px 12px;border:1.5px solid var(--rosa-soft);border-radius:10px;font-family:inherit;font-size:.82rem;background:#fff;outline:none}
 .todos-sec{display:flex;align-items:center;justify-content:space-between;margin:16px 0 4px;padding:7px 12px;background:var(--rosa-cream);border-radius:9px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa-deep);font-weight:700}
 .todos-sec b{font-family:'Great Vibes',cursive;font-size:1.15rem;letter-spacing:0}
@@ -318,7 +320,16 @@ function todoRow(g){
       <option value="confirmed" ${g.status==='confirmed'?'selected':''}>✅</option>
       <option value="declined" ${g.status==='declined'?'selected':''}>❌</option>
     </select>
+    <button class="row-del" onclick="removeGuest(${g.id})" title="Remover convidado">✕</button>
   </div>`;
+}
+function removeGuest(gid){
+  const g=guest(gid);if(!g)return;
+  if(!confirm('Remover "'+g.name+'" da lista?'))return;
+  ST.convites.forEach(function(cv){cv.members=cv.members.filter(function(m){return m!==gid;});if(cv.members.length)recalcConvite(cv);});
+  ST.convites=ST.convites.filter(function(cv){return cv.members.length>0;});
+  ST.guests=ST.guests.filter(function(x){return x.id!==gid;});
+  afterChange();showToast('Convidado removido');
 }
 function renderTodos(){
   const query=q(),c=document.getElementById('todos-list');
@@ -440,8 +451,21 @@ function dl(blob,name){const a=document.createElement('a');a.href=URL.createObje
 
 // logo compartilhada com o site (mesma origem)
 function applyLogo(){try{const l=localStorage.getItem('jr-logo');if(l){const img=document.getElementById('header-logo');img.src=l;img.style.display='block';}}catch(e){}}
+function applySiteFonts(){
+  try{
+    const cfg=JSON.parse(localStorage.getItem('jr-site-config'))||{};
+    const body=cfg['a-font-body']||'', script=cfg['a-font-script']||'';
+    [body,script].forEach(function(f){if(f){const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+f.replace(/ /g,'+')+':wght@400;500;600;700&display=swap';document.head.appendChild(l);}});
+    if(!body&&!script)return;
+    const st=document.createElement('style');
+    let css='';
+    if(body)css+="body,p,span,div,button,input,select,label,.stat-lbl,.tab,.fbtn,.tool,.guest-row,.convite-name{font-family:'"+body+"',Georgia,serif!important}";
+    if(script)css+=".header-title,.header-mono,.stat-num,.foot-stat .n,.modal h3{font-family:'"+script+"',cursive!important}";
+    st.textContent=css;document.head.appendChild(st);
+  }catch(e){}
+}
 
-function init(){ST=load();applyLogo();render();}
+function init(){ST=load();applyLogo();applySiteFonts();render();}
 init();
 </script>
 </body>
