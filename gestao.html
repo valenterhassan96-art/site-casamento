@@ -48,6 +48,9 @@ body{font-family:'Fraunces',Georgia,serif;background:var(--cream);color:var(--te
 .convite-count{font-size:.55rem;color:var(--text-soft);margin-left:auto}
 .convite-status-sel,.status-sel{padding:3px 8px;border:1px solid #e8e0e0;border-radius:8px;font-size:.58rem;font-family:inherit;background:#fff;cursor:pointer;outline:none}
 .mini-sel{padding:3px 4px;border:1px solid #e8e0e0;border-radius:8px;font-size:.54rem;font-family:inherit;background:#fff;cursor:pointer;outline:none;max-width:86px}
+.name-edit{border:none;background:transparent;font-family:inherit;font-size:.78rem;color:var(--text);outline:none;border-bottom:1px dashed transparent;min-width:70px;flex:1 1 90px;padding:1px 0}
+.name-edit:hover{border-bottom-color:#eadfe4}
+.name-edit:focus{border-bottom-color:var(--rosa)}
 .add-sel{width:100%;padding:9px 12px;border:1.5px solid var(--rosa-soft);border-radius:10px;font-family:inherit;font-size:.82rem;background:#fff;outline:none}
 .todos-sec{display:flex;align-items:center;justify-content:space-between;margin:16px 0 4px;padding:7px 12px;background:var(--rosa-cream);border-radius:9px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--rosa-deep);font-weight:700}
 .todos-sec b{font-family:'Great Vibes',cursive;font-size:1.15rem;letter-spacing:0}
@@ -297,7 +300,8 @@ function todoRow(g){
   const cv=getGuestConvite(g.id);
   const other=(g.list!=='jessica'&&g.list!=='rhassan');
   return `<div class="guest-row" data-s="${g.status}">
-    <div class="guest-name-cell">${esc(g.name)} ${guestBadge(g)}
+    <div class="guest-name-cell">
+      <input class="name-edit" value="${esc(g.name)}" onchange="setGuestName(${g.id},this.value)" title="Editar nome (use o nome completo)"> ${guestBadge(g)}
       ${cv?`<span class="convite-pin" style="font-size:.45rem;padding:1px 6px">🔒 ${esc(String(cv.pin))}</span>`:'<span style="font-size:.5rem;color:#ccc">sem convite</span>'}
     </div>
     <select class="mini-sel" title="Lado" onchange="setGuestSide(${g.id},this.value)">
@@ -328,6 +332,7 @@ function renderTodos(){
   if(!html)html='<p style="text-align:center;color:var(--text-soft);font-size:.75rem;padding:20px">Nenhum convidado encontrado.</p>';
   c.innerHTML=html;
 }
+function setGuestName(gid,val){const g=guest(gid);if(g){const v=val.trim();if(v)g.name=v;afterChange();}}
 function setGuestSide(gid,val){const g=guest(gid);if(g){g.list=val;afterChange();}}
 function setGuestKid(gid,val){const g=guest(gid);if(g){g.kid=(val==='kid');g.age=g.kid?'Criança':'Adulto';afterChange();}}
 

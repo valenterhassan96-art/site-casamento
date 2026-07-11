@@ -883,7 +883,7 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma <b>nova 
   <div class="wc wc-b" style="width:180px;height:180px;background:var(--rosa-soft);bottom:8%;left:-12%"></div>
   <div class="rv"><p class="sec-label">Presentes</p><h2 class="sec-title">Sua presença é o presente</h2></div>
   <p class="rv d1" style="max-width:380px;margin:0 auto 24px;font-size:.88rem;color:var(--text-soft);font-weight:300;font-style:italic">Mas se quiser nos presentear, ficamos felizes com qualquer gesto de carinho.</p>
-  <div class="gift-row" style="display:flex;flex-direction:column;gap:14px;max-width:440px;margin:0 auto">
+  <div class="gift-row" id="gift-row" style="display:flex;flex-direction:column;gap:14px;max-width:440px;margin:0 auto">
     <div class="card rv d2">
       <div style="color:var(--rosa);font-size:1.9rem;margin-bottom:6px;line-height:1"><svg class="ic"><use href="#ic-gift"></use></svg></div>
       <h3 class="card-title">Lista Bemol</h3>
@@ -1147,9 +1147,11 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
     </div></div>
 
     <!-- PRESENTES -->
-    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🎁</span> Presentes <span class="acc-arrow">▼</span></button>
+    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🎁</span> Presentes (listas) <span class="acc-arrow">▼</span></button>
     <div class="acc-content">
-      <p style="font-size:10px;color:#999;margin-bottom:8px">Edite os links e textos diretamente no HTML ou use o Export JSON para personalizar.</p>
+      <p style="font-size:9px;color:#bbb;margin-bottom:8px">Adicione quantas listas quiser. Elas aparecem na seção “Presentes” do site.</p>
+      <div id="gift-editor"></div>
+      <button class="add-btn" onclick="addGift()">+ Adicionar lista de presentes</button>
     </div></div>
 
     <!-- RSVP -->
@@ -1173,6 +1175,34 @@ Agora, diante de Deus e de quem amamos, vamos celebrar o começo de uma &lt;b&gt
     <!-- CORES CSS -->
     <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🎨</span> Cores do Site <span class="acc-arrow">▼</span></button>
     <div class="acc-content" id="css-colors-editor"></div></div>
+
+    <!-- TIPOGRAFIA -->
+    <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🔤</span> Fontes (tipografia) <span class="acc-arrow">▼</span></button>
+    <div class="acc-content">
+      <div class="field"><label>Fonte dos textos</label>
+        <select id="a-font-body" oninput="applyFonts()">
+          <option value="">Padrão (Fraunces)</option>
+          <option value="Playfair Display">Playfair Display</option>
+          <option value="Cormorant Garamond">Cormorant Garamond</option>
+          <option value="EB Garamond">EB Garamond</option>
+          <option value="Lora">Lora</option>
+          <option value="Montserrat">Montserrat</option>
+          <option value="Poppins">Poppins</option>
+          <option value="Raleway">Raleway</option>
+        </select>
+      </div>
+      <div class="field"><label>Fonte dos títulos manuscritos</label>
+        <select id="a-font-script" oninput="applyFonts()">
+          <option value="">Padrão (Great Vibes)</option>
+          <option value="Dancing Script">Dancing Script</option>
+          <option value="Parisienne">Parisienne</option>
+          <option value="Sacramento">Sacramento</option>
+          <option value="Pinyon Script">Pinyon Script</option>
+          <option value="Allura">Allura</option>
+        </select>
+      </div>
+      <p style="font-size:9px;color:#bbb;margin-top:4px">As fontes são carregadas do Google Fonts (precisa de internet ao trocar). Salve para manter.</p>
+    </div></div>
 
     <!-- PÉTALAS -->
     <div class="acc"><button class="acc-btn" onclick="toggleAcc(this)"><span class="acc-icon">🌸</span> Pétalas de Rosa <span class="acc-arrow">▼</span></button>
@@ -1673,7 +1703,62 @@ function applyFavicon(){
   }catch(e){}
 }
 function removeFavicon(){try{localStorage.removeItem('jr-favicon');}catch(e){}const l=document.getElementById('jr-fav');if(l)l.remove();siteToast('Ícone removido');}
-restoreSiteConfig();applyLogo();applyFavicon();
+const _loadedFonts={};
+function loadGoogleFont(family){
+  if(!family||_loadedFonts[family])return;_loadedFonts[family]=1;
+  const l=document.createElement('link');l.rel='stylesheet';
+  l.href='https://fonts.googleapis.com/css2?family='+family.replace(/ /g,'+')+':wght@400;500;600;700&display=swap';
+  document.head.appendChild(l);
+}
+function applyFonts(){
+  const bEl=document.getElementById('a-font-body'),sEl=document.getElementById('a-font-script');
+  const body=bEl?bEl.value:'',script=sEl?sEl.value:'';
+  loadGoogleFont(body);loadGoogleFont(script);
+  let st=document.getElementById('jr-font-css');
+  if(!body&&!script){if(st)st.remove();return;}
+  if(!st){st=document.createElement('style');st.id='jr-font-css';document.head.appendChild(st);}
+  let css='';
+  if(body)css+="body,p,span,a,li,td,button,input,textarea,select,label,.btn,.sec-label,.card-text,.nav a,h1,h2,h3,h4{font-family:'"+body+"',Georgia,serif!important}";
+  if(script)css+=".script,.sec-title,.card-title,.tl-title,.rsvp-group-title,.header-title,.header-mono,.stat-num{font-family:'"+script+"',cursive!important}";
+  st.textContent=css;
+}
+// ═══ LISTAS DE PRESENTES (editáveis) ═══
+const defaultGifts=[
+  {title:'Lista Bemol',desc:'Itens para a nossa casa.',label:'🎁 Ver Lista',url:'https://www.bemol.com.br/lp/rhassan&jessica'},
+  {title:'Mimos pro Casal',desc:'Experiências e mimos especiais.',label:'💛 Ver Mimos',url:'https://www.rhassan-e-jessica.com.br/lista-de-presentes'}
+];
+let giftLists=[];
+try{giftLists=JSON.parse(localStorage.getItem('jr-gifts'))||JSON.parse(JSON.stringify(defaultGifts));}catch(e){giftLists=JSON.parse(JSON.stringify(defaultGifts));}
+function saveGifts(){try{localStorage.setItem('jr-gifts',JSON.stringify(giftLists));}catch(e){}renderGifts();}
+function escAttr(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function renderGifts(){
+  const row=document.getElementById('gift-row');if(!row)return;
+  if(!giftLists.length){row.innerHTML='<p style="font-size:.8rem;color:var(--text-soft)">Nenhuma lista cadastrada.</p>';return;}
+  row.innerHTML=giftLists.map(function(g,i){
+    return '<div class="card rv d2">'+
+      '<div style="color:var(--rosa);font-size:1.9rem;margin-bottom:6px;line-height:1"><svg class="ic"><use href="#ic-gift"></use></svg></div>'+
+      '<h3 class="card-title">'+escAttr(g.title)+'</h3>'+
+      '<p class="card-text" style="margin-bottom:14px">'+escAttr(g.desc)+'</p>'+
+      (g.url?'<a href="'+escAttr(g.url)+'" target="_blank" rel="noopener" class="btn '+(i%2?'btn-outline':'btn-rosa')+'">'+escAttr(g.label||'Ver lista')+'</a>':'')+
+    '</div>';
+  }).join('');
+}
+function renderGiftEditor(){
+  const c=document.getElementById('gift-editor');if(!c)return;
+  c.innerHTML=giftLists.map(function(g,i){
+    return '<div style="border:1px solid var(--rosa-pale);border-radius:10px;padding:10px;margin-bottom:8px">'+
+      '<div class="field"><label>Título</label><input value="'+escAttr(g.title)+'" oninput="giftLists['+i+'].title=this.value;saveGifts()"></div>'+
+      '<div class="field"><label>Descrição</label><input value="'+escAttr(g.desc)+'" oninput="giftLists['+i+'].desc=this.value;saveGifts()"></div>'+
+      '<div class="field"><label>Texto do botão</label><input value="'+escAttr(g.label)+'" oninput="giftLists['+i+'].label=this.value;saveGifts()"></div>'+
+      '<div class="field"><label>Link (URL)</label><input value="'+escAttr(g.url)+'" oninput="giftLists['+i+'].url=this.value;saveGifts()"></div>'+
+      '<button class="del-btn" onclick="removeGift('+i+')" style="font-size:11px">✕ remover esta lista</button>'+
+    '</div>';
+  }).join('');
+}
+function addGift(){giftLists.push({title:'Nova lista',desc:'Descrição da lista',label:'Ver lista',url:''});saveGifts();renderGiftEditor();}
+function removeGift(i){giftLists.splice(i,1);saveGifts();renderGiftEditor();}
+renderGifts();renderGiftEditor();
+restoreSiteConfig();applyLogo();applyFavicon();applyFonts();
 </script>
 
 <style>
@@ -1818,7 +1903,38 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
     const el=e.target.closest(STYLE_SEL);
     if(!el||!el.closest('body > section[id]'))return;
     if(el.tagName==='A'||el.tagName==='BUTTON')e.preventDefault();
+    if(dragMoved){dragMoved=false;return;} // acabou de arrastar: não reabrir
     selectEl(el);
+  }
+
+  // ── arrastar para reposicionar (estilo Figma) ──
+  let dragEl=null,dragKey=null,dragSX=0,dragSY=0,dragBX=0,dragBY=0,dragging=false,dragMoved=false;
+  function onPointerDown(e){
+    if(!mode||e.button!==0)return;
+    if(e.target.closest('.ledit-bar,.ledit-tag,.layout-toolbar,#style-inspector'))return;
+    const el=e.target.closest(STYLE_SEL);
+    if(!el||!el.closest('body > section[id]'))return;
+    dragEl=el;dragKey=styleKey(el);dragging=false;
+    const o=OVR[dragKey]||{};dragBX=o.tx||0;dragBY=o.ty||0;dragSX=e.clientX;dragSY=e.clientY;
+    document.addEventListener('pointermove',onPointerMove,true);
+    document.addEventListener('pointerup',onPointerUp,true);
+  }
+  function onPointerMove(e){
+    if(!dragEl)return;
+    const dx=e.clientX-dragSX,dy=e.clientY-dragSY;
+    if(!dragging&&(Math.abs(dx)+Math.abs(dy))<5)return;
+    dragging=true;dragMoved=true;e.preventDefault();
+    const o=OVR[dragKey]||{};o.w=o.w||100;o.sc=o.sc||100;
+    o.tx=Math.round(dragBX+dx);o.ty=Math.round(dragBY+dy);
+    OVR[dragKey]=o;applyStyle(dragEl,o);
+    if(curEl!==dragEl)selectEl(dragEl);
+    else{setSlider('si-tx',o.tx,'px');setSlider('si-ty',o.ty,'px');}
+  }
+  function onPointerUp(){
+    document.removeEventListener('pointermove',onPointerMove,true);
+    document.removeEventListener('pointerup',onPointerUp,true);
+    if(dragEl&&!dragging)selectEl(dragEl);
+    dragEl=null;dragging=false;
   }
 
   let mode=false;
@@ -1863,9 +1979,10 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
     insp.querySelector('#si-close').onclick=function(){insp.style.display='none';if(curEl)curEl.classList.remove('le-selected');curEl=null;};
     insp.querySelector('.si-reset').onclick=function(){if(!curKey)return;delete OVR[curKey];applyStyle(curEl,null);insp.style.display='none';curEl.classList.remove('le-selected');curEl=null;};
     document.addEventListener('click',onDocClick,true);
+    document.addEventListener('pointerdown',onPointerDown,true);
     // toolbar
     const tb=document.createElement('div');tb.className='layout-toolbar';tb.id='layout-toolbar';
-    tb.innerHTML='<span class="lt-hint">▲▼ mover · 👁 ocultar seção · toque em títulos p/ editar texto · toque em botões/imagens/textos p/ redimensionar</span><button class="lt-save">💾 Salvar layout</button><button class="lt-exit">Sair sem salvar</button>';
+    tb.innerHTML='<span class="lt-hint">✋ ARRASTE p/ mover · toque p/ selecionar e redimensionar · ▲▼👁 na seção · títulos editáveis</span><button class="lt-save">💾 Salvar layout</button><button class="lt-exit">Sair sem salvar</button>';
     tb.querySelector('.lt-save').onclick=saveLayout;
     tb.querySelector('.lt-exit').onclick=function(){toggleLayoutMode();};
     document.body.appendChild(tb);
@@ -1879,6 +1996,9 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
   }
   function teardown(){
     document.removeEventListener('click',onDocClick,true);
+    document.removeEventListener('pointerdown',onPointerDown,true);
+    document.removeEventListener('pointermove',onPointerMove,true);
+    document.removeEventListener('pointerup',onPointerUp,true);
     [].slice.call(document.querySelectorAll('.ledit-bar,.ledit-tag,#layout-toolbar,#style-inspector')).forEach(function(e){e.remove();});
     curEl=null;curKey=null;
     sections().forEach(function(s){
@@ -1913,7 +2033,8 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
       '#style-inspector .si-colorrow label{margin:0;display:flex;align-items:center;gap:6px;text-transform:none;font-size:.66rem;letter-spacing:0}'+
       '#style-inspector .si-colorrow input[type=color]{width:44px;height:28px;border:1px solid var(--rosa-pale);border-radius:7px;padding:0;background:none;cursor:pointer}'+
       '#style-inspector .si-reset{margin-top:11px;width:100%;padding:8px;border:1px solid var(--rosa-pale);border-radius:9px;background:var(--rosa-cream);color:var(--rosa-deep);font-family:inherit;font-size:.7rem;cursor:pointer}'+
-      '.le-selected{outline:2px solid var(--rosa-deep)!important;outline-offset:2px}';
+      '.le-selected{outline:2px solid var(--rosa-deep)!important;outline-offset:2px}'+
+      'body.layout-edit section[id] :is(h1,h2,h3,h4,.sec-title,.sec-label,.card-title,.card-text,.btn,button,.mono-svg,img,figure,p){cursor:move}';
     document.head.appendChild(st);
   }
   applyLayout();
