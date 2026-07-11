@@ -1706,7 +1706,7 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
   // overrides de estilo {chave -> {fs,w,sc,tx,ty}}
   let OVR={};try{const c0=JSON.parse(localStorage.getItem(LAYOUT_LS));if(c0&&c0.styles)OVR=c0.styles;}catch(e){}
   function applyStyle(el,o){
-    if(!o){el.style.fontSize='';el.style.width='';el.style.transform='';el.style.color='';el.style.background='';el.style.webkitTextFillColor='';return;}
+    if(!o){['fontSize','width','transform','color','background','webkitTextFillColor','fontWeight','fontStyle','padding','marginTop','marginBottom'].forEach(function(p){el.style[p]='';});return;}
     el.style.fontSize=o.fs?o.fs+'px':'';
     el.style.width=(o.w&&o.w!=100)?o.w+'%':'';
     const t=[];
@@ -1716,6 +1716,11 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
     el.style.transform=t.join(' ');
     if(o.color){el.style.color=o.color;el.style.webkitTextFillColor=o.color;}else{el.style.color='';el.style.webkitTextFillColor='';}
     el.style.background=o.bg?o.bg:'';
+    el.style.fontWeight=o.bold?'700':'';
+    el.style.fontStyle=o.italic?'italic':'';
+    el.style.padding=(o.pad!=null)?o.pad+'px':'';
+    el.style.marginTop=(o.mar!=null)?o.mar+'px':'';
+    el.style.marginBottom=(o.mar!=null)?o.mar+'px':'';
   }
   function applyAllStyles(){
     Object.keys(OVR).forEach(function(k){
@@ -1771,6 +1776,12 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
     document.getElementById('si-color').value=o.color||rgbToHex(cs.color)||'#3a2e2e';
     document.getElementById('si-bg-on').checked=!!o.bg;
     document.getElementById('si-bg').value=o.bg||rgbToHex(cs.backgroundColor)||'#ffffff';
+    document.getElementById('si-bold').checked=!!o.bold;
+    document.getElementById('si-italic').checked=!!o.italic;
+    document.getElementById('si-pad-on').checked=(o.pad!=null);
+    setSlider('si-pad', (o.pad!=null)?o.pad:(parseInt(cs.paddingTop)||0),'px');
+    document.getElementById('si-mar-on').checked=(o.mar!=null);
+    setSlider('si-mar', (o.mar!=null)?o.mar:(parseInt(cs.marginTop)||0),'px');
     document.getElementById('style-inspector').style.display='block';
   }
   function rgbToHex(c){
@@ -1788,7 +1799,13 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
     };
     if(document.getElementById('si-color-on').checked)o.color=document.getElementById('si-color').value;
     if(document.getElementById('si-bg-on').checked)o.bg=document.getElementById('si-bg').value;
+    if(document.getElementById('si-bold').checked)o.bold=true;
+    if(document.getElementById('si-italic').checked)o.italic=true;
+    if(document.getElementById('si-pad-on').checked)o.pad=+document.getElementById('si-pad').value;
+    if(document.getElementById('si-mar-on').checked)o.mar=+document.getElementById('si-mar').value;
     OVR[curKey]=o;applyStyle(curEl,o);
+    document.getElementById('si-pad-v').textContent=document.getElementById('si-pad').value+'px';
+    document.getElementById('si-mar-v').textContent=document.getElementById('si-mar').value+'px';
     document.getElementById('si-fs-v').textContent=o.fs+'px';
     document.getElementById('si-w-v').textContent=o.w+'%';
     document.getElementById('si-sc-v').textContent=o.sc+'%';
@@ -1834,12 +1851,15 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
       '<label>Escala (tamanho) <span id="si-sc-v"></span></label><input type="range" id="si-sc" min="40" max="220" step="1">'+
       '<label>Mover horizontal <span id="si-tx-v"></span></label><input type="range" id="si-tx" min="-160" max="160" step="1">'+
       '<label>Mover vertical <span id="si-ty-v"></span></label><input type="range" id="si-ty" min="-160" max="160" step="1">'+
+      '<div class="si-toggrow"><label><input type="checkbox" id="si-bold"> <b>Negrito</b></label><label><input type="checkbox" id="si-italic"> <i>Itálico</i></label></div>'+
+      '<label>Espaçamento interno <span id="si-pad-v"></span> <input type="checkbox" id="si-pad-on" title="ativar"></label><input type="range" id="si-pad" min="0" max="48" step="1">'+
+      '<label>Espaçamento externo <span id="si-mar-v"></span> <input type="checkbox" id="si-mar-on" title="ativar"></label><input type="range" id="si-mar" min="0" max="80" step="1">'+
       '<div class="si-colorrow"><label><input type="checkbox" id="si-color-on"> Cor do texto</label><input type="color" id="si-color"></div>'+
       '<div class="si-colorrow"><label><input type="checkbox" id="si-bg-on"> Cor de fundo</label><input type="color" id="si-bg"></div>'+
       '<button class="si-reset">Remover ajustes deste objeto</button>';
     document.body.appendChild(insp);
-    ['si-fs','si-w','si-sc','si-tx','si-ty','si-color','si-bg'].forEach(function(id){document.getElementById(id).addEventListener('input',readInspector);});
-    ['si-color-on','si-bg-on'].forEach(function(id){document.getElementById(id).addEventListener('change',readInspector);});
+    ['si-fs','si-w','si-sc','si-tx','si-ty','si-color','si-bg','si-pad','si-mar'].forEach(function(id){document.getElementById(id).addEventListener('input',readInspector);});
+    ['si-color-on','si-bg-on','si-bold','si-italic','si-pad-on','si-mar-on'].forEach(function(id){document.getElementById(id).addEventListener('change',readInspector);});
     insp.querySelector('#si-close').onclick=function(){insp.style.display='none';if(curEl)curEl.classList.remove('le-selected');curEl=null;};
     insp.querySelector('.si-reset').onclick=function(){if(!curKey)return;delete OVR[curKey];applyStyle(curEl,null);insp.style.display='none';curEl.classList.remove('le-selected');curEl=null;};
     document.addEventListener('click',onDocClick,true);
@@ -1886,6 +1906,9 @@ body.layout-edit [contenteditable="true"]{outline:1px dotted var(--gold);outline
       '#style-inspector .si-head button{border:none;background:none;font-size:16px;cursor:pointer;color:#999}'+
       '#style-inspector label{display:flex;justify-content:space-between;font-size:.6rem;color:var(--text-soft);text-transform:uppercase;letter-spacing:.05em;margin:9px 0 2px}'+
       '#style-inspector input[type=range]{width:100%;accent-color:var(--rosa-deep);margin:0}'+
+      '#style-inspector .si-toggrow{display:flex;gap:16px;margin-top:11px}'+
+      '#style-inspector .si-toggrow label{margin:0;display:flex;align-items:center;gap:6px;text-transform:none;font-size:.72rem;letter-spacing:0;color:var(--text)}'+
+      '#style-inspector label input[type=checkbox]{accent-color:var(--rosa-deep)}'+
       '#style-inspector .si-colorrow{display:flex;align-items:center;justify-content:space-between;margin-top:9px}'+
       '#style-inspector .si-colorrow label{margin:0;display:flex;align-items:center;gap:6px;text-transform:none;font-size:.66rem;letter-spacing:0}'+
       '#style-inspector .si-colorrow input[type=color]{width:44px;height:28px;border:1px solid var(--rosa-pale);border-radius:7px;padding:0;background:none;cursor:pointer}'+
